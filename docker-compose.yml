@@ -5,7 +5,7 @@ services:
     build: .
     container_name: iqa-app
     ports:
-      - "4001:80"
+      - "4001:4001"
     restart: unless-stopped
     networks:
       - coolify
