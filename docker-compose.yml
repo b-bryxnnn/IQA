@@ -8,8 +8,12 @@ services:
       - "4001:80"
     restart: unless-stopped
     networks:
-      - coolify # สั่งให้เข้าไปอยู่ในวง Network หลักของ Coolify
+      - coolify
+    labels:
+      - "traefik.enable=true"
+      # ปิดการบังคับ Redirect จาก HTTP ไป HTTPS (เพื่อให้คุยกับ Cloudflare ได้)
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=http"
 
 networks:
   coolify:
-    external: true # บอกว่า Network นี้ถูกสร้างไว้แล้ว(โดย Coolify) ไม่ต้องพยายามสร้างใหม่
+    external: true
