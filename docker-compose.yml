@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  iqa-app:
+    build: .
+    container_name: iqa-app
+    ports:
+      - "4001:80" # Map host port 4001 to container port 80
+    restart: unless-stopped

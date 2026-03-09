@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internal Quality Assurance</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Decorative Background Elements -->
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+    <div class="bg-shape shape-3"></div>
+
+    <div class="container">
+        <header id="main-header" class="site-header">
+            <div class="header-icon">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <h1>Internal Quality Assurance</h1>
+            <p>ระบบการประกันคุณภาพภายในสถานศึกษา</p>
+        </header>
+
+        <div id="nav-bar" class="nav-bar">
+            <button class="back-btn js-back-btn">
+                <i class="fas fa-arrow-left"></i> ย้อนกลับ
+            </button>
+            <span id="breadcrumb" class="breadcrumb"></span>
+        </div>
+
+        <main id="content-area">
+            <!-- Loading Skeleton -->
+            <div class="skeleton-wrapper">
+                <div class="skeleton-box"></div>
+                <div class="skeleton-box"></div>
+                <div class="skeleton-box"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Chat Widget Toggle -->
+    <button class="chat-toggle-btn" id="chatBtn">
+        <i class="fas fa-comment-dots" id="chatIcon"></i>
+    </button>
+
+    <!-- Chat Widget Container -->
+    <div class="chat-widget-container" id="chatContainer">
+        <div class="chat-header">
+            <h3>ผู้ช่วย IQA</h3>
+            <button class="chat-close-btn" id="chatCloseBtn"><i class="fas fa-times"></i></button>
+        </div>
+        <div id="chat-loading" class="chat-loading">
+            <div class="spinner"></div>
+        </div>
+        <iframe id="chatIframe" class="chat-iframe" src=""></iframe>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="script.js"></script>
+</body>
+</html>
