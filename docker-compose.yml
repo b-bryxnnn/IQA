@@ -9,10 +9,6 @@ services:
     restart: unless-stopped
     networks:
       - coolify
-    labels:
-      - "traefik.enable=true"
-      # ปิดการบังคับ Redirect จาก HTTP ไป HTTPS (เพื่อให้คุยกับ Cloudflare ได้)
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=http"
 
 networks:
   coolify:
