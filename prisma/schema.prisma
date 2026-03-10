@@ -1,0 +1,46 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Teacher {
+  id        String   @id // ลำดับ (Column A)
+  title     String?  // คำนำหน้า (Column B)
+  firstName String?  // ชื่อ (Column C)
+  lastName  String?  // สกุล (Column D)
+  room      String?  // กลุ่มสาระ (Column E)
+  position  String?  // ตำแหน่ง (Column F)
+  
+  @@map("Name")
+}
+
+model Assessment {
+  id        Int      @id @default(autoincrement())
+  timestamp DateTime @default(now()) // Timestamp (Column A)
+  
+  stdId     String   // ID (Column B)
+  stdName   String?  // Name (Column C)
+  stdRoom   String?  // Room (Column D)
+  stdNo     String?  // No (Column E)
+  
+  q1 Int? // (Column F)
+  q2 Int? // (Column G)
+  q3 Int? // (Column H)
+  q4 Int? // (Column I)
+  q5 Int? // (Column J)
+  q6 Int? // (Column K)
+  q7 Int? // (Column L)
+  q8 Int? // (Column M)
+  q9 Int? // (Column N)
+  
+  comment String? // (Column O)
+
+  link66 String? // (Column P)
+  link67 String? // (Column Q)
+
+  @@map("Reply")
+}
