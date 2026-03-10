@@ -7,14 +7,268 @@
     <title>RS.L Active Learning</title>
 
     <link
-        href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Kanit:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap5.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/src/dashboard.css">
+    <style>
+        :root {
+            --bs-primary: #1a365d;
+            --bs-secondary: #d97706;
+            --bs-light: #f8fafc;
+            --main-bg: #f8fafc;
+        }
+
+        body {
+            background-color: var(--main-bg);
+            color: #1e293b;
+            font-family: 'Sarabun', sans-serif;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        .fw-bold {
+            font-family: 'Kanit', sans-serif !important;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%) !important;
+            color: white !important;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border-bottom: 3px solid #d97706;
+        }
+
+        .navbar .nav-title {
+            color: white !important;
+            font-family: 'Kanit', sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        .navbar .nav-subtitle {
+            color: #cbd5e1 !important;
+        }
+
+        .navbar .btn-menu {
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2)
+        }
+
+        .navbar .btn-menu:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .offcanvas-header {
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .menu-link.active {
+            background-color: #f1f5f9;
+            border-left-color: #1a365d;
+            color: #1a365d;
+            font-weight: bold;
+        }
+
+        .stat-card.bg-grad-blue {
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0;
+            color: #1e3a8a !important;
+            border-top: 4px solid #1e3a8a;
+        }
+
+        .stat-card.bg-grad-green {
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0;
+            color: #047857 !important;
+            border-top: 4px solid #047857;
+        }
+
+        .stat-card.bg-grad-orange {
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0;
+            color: #d97706 !important;
+            border-top: 4px solid #d97706;
+        }
+
+        .stat-card .stat-icon {
+            opacity: 0.8 !important;
+        }
+
+        .bg-white-glass {
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .chart-title {
+            color: #1a365d;
+            font-weight: bold;
+            font-family: 'Kanit', sans-serif;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+
+        .nav-pills .nav-link {
+            color: #475569;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        .nav-pills .nav-link.active,
+        .nav-pills .show>.nav-link {
+            color: #fff;
+            background-color: #1a365d;
+        }
+
+        .btn-action-orange {
+            background-color: #ffffff;
+            color: #1a365d;
+            border: 1px solid #1a365d;
+        }
+
+        .btn-action-orange:hover {
+            background-color: #1a365d;
+            color: #ffffff;
+        }
+
+        .room-btn {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            color: #475569;
+        }
+
+        .room-btn.active {
+            background: #1a365d;
+            color: #ffffff;
+            border-color: #1a365d;
+        }
+
+        .repo-card {
+            border: 1px solid #e2e8f0;
+            background: #ffffff;
+            border-top: 3px solid #1a365d;
+        }
+
+        .repo-badge {
+            background: #f1f5f9;
+            color: #1a365d;
+            font-weight: bold;
+            border: 1px solid #e2e8f0;
+        }
+
+        .btn-file-link {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            color: #1e293b;
+        }
+
+        .btn-file-link:hover {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05) !important;
+            color: #1a365d
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%) !important;
+            border-bottom: 3px solid #d97706;
+        }
+
+        .modal-title {
+            font-family: 'Sarabun', sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        .upload-card.active {
+            border-color: #1a365d;
+            background: #f8fafc;
+        }
+
+        .upload-icon-main {
+            color: #1a365d;
+        }
+
+        .custom-progress-bar {
+            background: linear-gradient(90deg, #1a365d 0%, #2563eb 100%);
+        }
+
+        .btn-save {
+            background: linear-gradient(135deg, #1a365d 0%, #2563eb 100%) !important;
+            border: none;
+        }
+
+        .btn-save:hover {
+            background: linear-gradient(135deg, #0f172a 0%, #1d4ed8 100%) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(30, 58, 138, 0.4) !important;
+        }
+
+        /* Custom UI Modals */
+        #customAlertModal .modal-header {
+            background: #ffffff !important;
+            border-bottom: 1px solid #e2e8f0;
+            color: #1e293b;
+        }
+
+        #customAlertModal .modal-title {
+            color: #1e293b;
+            font-weight: bold;
+        }
+
+        #customAlertModal .modal-footer {
+            border-top: none;
+        }
+
+        .btn-formal-primary {
+            background-color: #1a365d;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            font-weight: 500;
+            border-radius: 6px;
+        }
+
+        .btn-formal-primary:hover {
+            background-color: #0f172a;
+            color: white;
+        }
+
+        .btn-formal-danger {
+            background-color: #dc2626;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            font-weight: 500;
+            border-radius: 6px;
+        }
+
+        .btn-formal-danger:hover {
+            background-color: #b91c1c;
+            color: white;
+        }
+
+        .btn-formal-secondary {
+            background-color: #f1f5f9;
+            color: #475569;
+            border: 1px solid #cbd5e1;
+            padding: 8px 20px;
+            font-weight: 500;
+            border-radius: 6px;
+        }
+
+        .btn-formal-secondary:hover {
+            background-color: #e2e8f0;
+            color: #1e293b;
+        }
+    </style>
 </head>
 
 <body>
@@ -324,6 +578,46 @@
         </div>
     </div>
 
+    <!-- Custom Alert/Confirm Modals -->
+    <div class="modal fade" id="customAlertModal" tabindex="-1" aria-hidden="true" style="z-index: 1060;">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content" style="border-radius: 12px; border: 1px solid #e2e8f0;">
+                <div class="modal-body text-center p-4">
+                    <i id="alertModalIcon" class="material-icons-round mb-3" style="font-size: 4rem;">info</i>
+                    <h5 id="alertModalTitle" class="fw-bold mb-2">แจ้งเตือน</h5>
+                    <p id="alertModalText" class="text-muted mb-4">รายละเอียด</p>
+                    <button type="button" class="btn btn-formal-primary w-100" data-bs-dismiss="modal">ตกลง</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="customConfirmModal" tabindex="-1" aria-hidden="true" style="z-index: 1060;">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content" style="border-radius: 12px; border: 1px solid #e2e8f0;">
+                <div class="modal-body text-center p-4">
+                    <i id="confirmModalIcon" class="material-icons-round text-warning mb-3"
+                        style="font-size: 4rem;">warning</i>
+                    <h5 id="confirmModalTitle" class="fw-bold mb-2">ยืนยัน</h5>
+                    <p id="confirmModalText" class="text-muted mb-4">คุณแน่ใจหรือไม่?</p>
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-formal-secondary w-50" data-bs-dismiss="modal"
+                            id="btnConfirmCancel">ยกเลิก</button>
+                        <button type="button" class="btn btn-formal-danger w-50" id="btnConfirmOk">ยืนยัน</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Toast/Overlay -->
+    <div id="loadingOverlay"
+        style="display:none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.8); z-index: 9999; justify-content: center; align-items: center; flex-direction: column;">
+        <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;"></div>
+        <div id="loadingOverlayText" class="mt-3 fw-bold text-dark" style="font-family: 'Sarabun', sans-serif;">
+            กำลังโหลด...</div>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
@@ -331,7 +625,6 @@
     <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="module" src="/src/dashboard.js"></script>
 
 </body>

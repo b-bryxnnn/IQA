@@ -6,50 +6,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Internal Quality Assurance</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400;500;600;700&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-material-ui/material-ui.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         /* ================= THEME & COLORS ================= */
         :root {
-            --primary-color: #fba441;
-            --text-color: #444;
-            --bg-gradient: linear-gradient(135deg, #845ec2, #d65db1, #ff6f91, #ff9671, #ffc75f, #f9f871);
-            --glass-bg: rgba(255, 255, 255, 0.95);
-            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            --primary-color: #1a365d;
+            /* Deep Navy Blue */
+            --secondary-color: #d97706;
+            /* Elegant Gold */
+            --bg-color: #f8fafc;
+            /* Very Light Gray/Blue */
+            --text-color: #1e293b;
+            --card-bg: #ffffff;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --header-bg: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Bai Jamjuree', sans-serif;
+            font-family: 'Sarabun', sans-serif;
             text-decoration: none;
         }
 
         body {
-            background-image: var(--bg-gradient);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+            background-color: var(--bg-color);
+            background-image: url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%231e3a8a" fill-opacity="0.03"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');
             min-height: 100vh;
             color: var(--text-color);
             padding-bottom: 80px;
-        }
-
-        @keyframes gradientBG {
-            0% {
-                background-position: 0% 50%;
-            }
-
-            50% {
-                background-position: 100% 50%;
-            }
-
-            100% {
-                background-position: 0% 50%;
-            }
         }
 
         .container {
@@ -59,57 +49,71 @@
         }
 
         /* ================= HEADER ================= */
+        .header-wrapper {
+            background: var(--header-bg);
+            padding: 40px 0;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-bottom: 4px solid var(--secondary-color);
+        }
+
         header {
             text-align: center;
-            margin-bottom: 40px;
             color: #fff;
-            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
 
         header h1 {
-            font-size: 2.5rem;
+            font-family: 'Kanit', sans-serif;
+            font-size: 2.2rem;
             font-weight: 700;
             margin-bottom: 10px;
+            letter-spacing: 0.5px;
         }
 
         header p {
             font-size: 1.1rem;
-            opacity: 0.95;
+            opacity: 0.9;
+            color: #e2e8f0;
         }
 
         /* ================= NAV BAR ================= */
         #nav-bar {
             display: none;
             margin-bottom: 30px;
+            max-width: 1200px;
+            margin: 0 auto 30px auto;
+            padding: 0 20px;
         }
 
         .back-btn {
-            background: rgba(255, 255, 255, 0.9);
-            border: none;
-            padding: 10px 25px;
-            border-radius: 50px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            padding: 8px 20px;
+            border-radius: 6px;
             font-size: 1rem;
-            color: #845ec2;
-            font-weight: 600;
+            color: var(--primary-color);
+            font-weight: 500;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: 0.3s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease;
             display: inline-flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .back-btn:hover {
-            transform: translateX(-5px);
-            background: #fff;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            background: #f1f5f9;
+            border-color: #cbd5e1;
         }
 
         #breadcrumb {
             margin-left: 15px;
-            color: white;
-            font-weight: 500;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            color: var(--text-color);
+            font-weight: 600;
+            font-size: 1.1rem;
         }
 
         /* ================= CONTENT LAYOUT ================= */
@@ -131,28 +135,28 @@
         }
 
         .section-header {
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(5px);
+            background: #fff;
             padding: 15px 25px;
-            border-radius: 15px;
+            border-radius: 8px;
             margin-bottom: 25px;
-            display: inline-block;
-            border-left: 6px solid #fff;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: block;
+            border-left: 5px solid var(--primary-color);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid #f1f5f9;
         }
 
         .section-header h2 {
-            color: #fff;
-            font-size: 1.5rem;
+            font-family: 'Kanit', sans-serif;
+            color: var(--primary-color);
+            font-size: 1.3rem;
             font-weight: 700;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .section-header h3 {
-            color: #fff;
-            font-size: 1.1rem;
+            color: #64748b;
+            font-size: 1.05rem;
             margin-top: 5px;
-            font-weight: 400;
+            font-weight: 500;
         }
 
         .box-container {
@@ -163,46 +167,48 @@
 
         /* ================= CARD STYLE ================= */
         .box {
-            background: var(--glass-bg);
-            border-radius: 20px;
+            background: var(--card-bg);
+            border-radius: 12px;
             padding: 30px;
             text-align: center;
             box-shadow: var(--card-shadow);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.2s ease;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            border: 1px solid rgba(255, 255, 255, 0.6);
+            border: 1px solid #e2e8f0;
             height: 100%;
         }
 
         .box:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-color: #cbd5e1;
         }
 
         .box img {
-            height: 150px;
+            height: 120px;
             object-fit: contain;
             margin-bottom: 20px;
-            filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.1));
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.05));
             transition: 0.3s;
         }
 
         .box:hover img {
-            transform: scale(1.05);
+            transform: scale(1.03);
         }
 
         .box h3 {
-            font-size: 1.4rem;
-            color: #333;
-            margin-bottom: 10px;
-            font-weight: 600;
+            font-family: 'Kanit', sans-serif;
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            margin-bottom: 12px;
+            font-weight: 700;
         }
 
         .box p {
-            color: #666;
-            font-size: 0.95rem;
+            color: #475569;
+            font-size: 1rem;
             line-height: 1.6;
             margin-bottom: 25px;
             flex-grow: 1;
@@ -214,22 +220,27 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            background: var(--primary-color);
-            color: #fff;
+            background: #ffffff;
+            color: var(--primary-color);
             font-size: 1rem;
-            font-weight: 500;
-            padding: 12px 25px;
-            border-radius: 50px;
-            border: none;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: 1px solid var(--primary-color);
             cursor: pointer;
             width: 100%;
-            transition: 0.3s;
+            transition: all 0.2s ease;
         }
 
         .btn:hover {
-            background: #e68a2e;
-            transform: scale(1.02);
-            box-shadow: 0 5px 15px rgba(251, 164, 65, 0.4);
+            background: var(--primary-color);
+            color: #ffffff;
+        }
+
+        .btn.js-action-btn:hover {
+            background: var(--secondary-color);
+            border-color: var(--secondary-color);
+            color: #ffffff;
         }
 
         /* ================= SKELETON LOADING ================= */
@@ -240,9 +251,9 @@
         }
 
         .skeleton-box {
-            background: rgba(255, 255, 255, 0.8);
-            height: 350px;
-            border-radius: 20px;
+            background: #e2e8f0;
+            height: 300px;
+            border-radius: 12px;
             animation: pulse 1.5s infinite;
         }
 
@@ -303,28 +314,120 @@
             right: 20px;
             width: 60px;
             height: 60px;
-            background: linear-gradient(135deg, #6366f1, #a855f7);
+            background: var(--primary-color);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 28px;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.5);
+            font-size: 24px;
+            box-shadow: 0 4px 15px rgba(30, 58, 138, 0.3);
             cursor: pointer;
             z-index: 10000;
-            transition: transform 0.3s, box-shadow 0.3s;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.2s ease;
+            border: 2px solid #ffffff;
         }
 
         .chat-toggle-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.7);
+            transform: scale(1.05);
+            background: var(--secondary-color);
         }
 
         .chat-toggle-btn.active {
-            background: #ef4444;
+            background: #dc2626;
             transform: rotate(90deg);
+        }
+
+        /* ================= CUSTOM MODAL ================= */
+        .custom-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 99999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .custom-modal-overlay.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .custom-modal {
+            background: #fff;
+            width: 90%;
+            max-width: 450px;
+            border-radius: 12px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            overflow: hidden;
+            transform: translateY(20px) scale(0.95);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-top: 5px solid var(--primary-color);
+        }
+
+        .custom-modal-overlay.show .custom-modal {
+            transform: translateY(0) scale(1);
+        }
+
+        .custom-modal-header {
+            padding: 20px 25px 10px;
+            text-align: center;
+        }
+
+        .custom-modal-header i {
+            font-size: 3rem;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+
+        .custom-modal-title {
+            font-family: 'Kanit', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 10px;
+        }
+
+        .custom-modal-body {
+            padding: 0 25px 25px;
+            font-size: 1rem;
+            color: #475569;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .custom-modal-footer {
+            padding: 15px 25px;
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .custom-modal-btn {
+            padding: 10px 25px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: background 0.2s;
+        }
+
+        .custom-modal-btn.primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .custom-modal-btn.primary:hover {
+            background: #152c4d;
         }
 
         /* Mobile */
@@ -353,11 +456,15 @@
 
 <body>
 
-    <div class="container">
+    <div class="header-wrapper">
         <header id="main-header">
-            <h1>Internal Quality Assurance</h1>
+            <!-- Add logo to match formal theme if desired, otherwise just text -->
+            <h1><i class="fas fa-landmark text-secondary me-2"></i> Internal Quality Assurance</h1>
             <p>ระบบการประกันคุณภาพภายในสถานศึกษา</p>
         </header>
+    </div>
+
+    <div class="container">
 
         <div id="nav-bar">
             <button class="back-btn js-back-btn">
@@ -387,7 +494,28 @@
         <iframe id="chatIframe" class="chat-iframe" src=""></iframe>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Custom Modal Elements -->
+    <div class="custom-modal-overlay" id="customModalBox">
+        <div class="custom-modal">
+            <div class="custom-modal-header">
+                <i class="fas fa-exclamation-circle" id="cModalIcon"></i>
+                <div class="custom-modal-title" id="cModalTitle">แจ้งเตือน</div>
+            </div>
+            <div class="custom-modal-body" id="cModalText">
+                รายละเอียด...
+            </div>
+            <div class="custom-modal-footer">
+                <button class="custom-modal-btn primary" onclick="closeCustomModal()">ตกลง</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="custom-modal-overlay" id="loadingModal">
+        <div class="custom-modal" style="max-width: 300px; text-align: center; padding: 30px;">
+            <i class="fas fa-circle-notch fa-spin" style="font-size: 3rem; color: var(--primary-color);"></i>
+            <div style="margin-top: 15px; font-weight: 600; color: var(--text-color);">กำลังเปิดลิงก์...</div>
+        </div>
+    </div>
 
     <script>
         // ============================================================
@@ -647,21 +775,39 @@
             }
         });
 
+        function showCustomModal(title, text, iconClass = "fa-exclamation-circle", iconColor = "var(--secondary-color)") {
+            const overlay = document.getElementById("customModalBox");
+            document.getElementById("cModalTitle").innerText = title;
+            document.getElementById("cModalText").innerText = text;
+
+            const iconEl = document.getElementById("cModalIcon");
+            iconEl.className = "fas " + iconClass;
+            iconEl.style.color = iconColor;
+
+            overlay.classList.add("show");
+        }
+
+        function closeCustomModal() {
+            document.getElementById("customModalBox").classList.remove("show");
+        }
+
         function handleExternalLink(url, id) {
             if (!url || url === '#' || url === '' || url === 'undefined') {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'ไม่พบลิงก์ข้อมูล',
-                    text: `ยังไม่ได้ใส่ลิงก์สำหรับ ${id} (หรือข้อมูลนี้ยังไม่พร้อม)`,
-                    confirmButtonColor: '#fba441'
-                });
+                showCustomModal(
+                    "ไม่พบลิงก์ข้อมูล",
+                    `ยังไม่ได้ใส่ลิงก์สำหรับ ${id} (หรือข้อมูลนี้ยังไม่พร้อม)`,
+                    "fa-exclamation-triangle",
+                    "#d97706"
+                );
                 return;
             }
 
-            Swal.fire({ title: 'กำลังเปิดลิงก์...', timer: 1000, didOpen: () => Swal.showLoading() });
+            const loadModal = document.getElementById("loadingModal");
+            loadModal.classList.add("show");
 
             const isLine = /Line/i.test(navigator.userAgent);
             setTimeout(() => {
+                loadModal.classList.remove("show");
                 if (isLine) {
                     let target = url.includes('?') ? url + '&openExternalBrowser=1' : url + '?openExternalBrowser=1';
                     window.location.href = target;

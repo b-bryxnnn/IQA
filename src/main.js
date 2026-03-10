@@ -10,7 +10,41 @@ const assessmentCriteria = [
   { title: "3. การประยุกต์ใช้ (Application)", items: ["3.1 ยกสถานการณ์จริง/ปัญหาในชีวิตประจำวันมาเป็นโจทย์", "3.2 มีช่วงเวลาให้สรุปแนวทางการนำความรู้ไปใช้จริง", "3.3 ชิ้นงานสุดท้ายสามารถนำไปแก้ปัญหาหรือใช้ประโยชน์ได้"] }
 ];
 
+// Custom Modal Helpers
+function showLoading(text) {
+  $('#loadingOverlayText').text(text || 'กำลังโหลด...');
+  $('#loadingOverlay').css('display', 'flex');
+}
+function hideLoading() {
+  $('#loadingOverlay').hide();
+}
+function showAlert(title, text, type) {
+  let icon = 'info', color = '#1a365d';
+  if (type === 'error') { icon = 'error_outline'; color = '#dc2626'; }
+  if (type === 'success') { icon = 'check_circle'; color = '#047857'; }
+  if (type === 'warning') { icon = 'warning'; color = '#d97706'; }
+  $('#alertModalIcon').text(icon).css('color', color);
+  $('#alertModalTitle').text(title);
+  $('#alertModalText').text(text);
+  new bootstrap.Modal(document.getElementById('customAlertModal')).show();
+}
+function showConfirm(title, text, confirmCallback) {
+  $('#confirmModalTitle').text(title);
+  $('#confirmModalText').text(text);
+  let myModal = new bootstrap.Modal(document.getElementById('customConfirmModal'));
+  $('#btnConfirmOk').off('click').on('click', function () {
+    myModal.hide();
+    confirmCallback();
+  });
+  myModal.show();
+}
+
 $(document).ready(function () {
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.has('room')) {
+    currentSelectedRoom = urlParams.get('room');
+  }
+
   renderQuestions();
   loadAllData();
 
@@ -58,30 +92,23 @@ $(document).ready(function () {
   $(document).on('click', '.btn-delete', function () {
     let idToDelete = $(this).data('id');
     let nameShow = $(this).closest('tr').find('td:nth-child(2)').text();
-    Swal.fire({
-      title: 'ยืนยันการลบ?',
-      text: `คุณต้องการลบผลการประเมินของ: ${nameShow}`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'ยืนยันการลบ',
-      cancelButtonText: 'ยกเลิก',
-      confirmButtonColor: '#ef4444',
-      cancelButtonColor: '#94a3b8'
-    }).then(async (res) => {
-      if (res.isConfirmed) {
-        Swal.fire({ title: 'กำลังลบข้อมูล...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
-        try {
-          const resp = await fetch('/api/assessments/' + idToDelete, { method: 'DELETE' });
-          const result = await resp.json();
-          if (result.success) {
-            await loadAllData(true);
-            Swal.fire({ icon: 'success', title: 'ลบสำเร็จ', text: 'ข้อมูลถูกลบเรียบร้อยแล้ว', timer: 1500, showConfirmButton: false });
-          } else {
-            Swal.fire('ข้อผิดพลาด', result.error, 'error');
-          }
-        } catch (err) {
-          Swal.fire('ข้อผิดพลาด', err.toString(), 'error');
+
+    showConfirm('ยืนยันการลบ?', `คุณต้องการลบผลการประเมินของ: ${nameShow}`, async () => {
+      showLoading('กำลังลบข้อมูล...');
+      try {
+        const resp = await fetch('/api/assessments/' + idToDelete, { method: 'DELETE' });
+        const result = await resp.json();
+        if (result.success) {
+          await loadAllData(true);
+          hideLoading();
+          showAlert('ลบสำเร็จ', 'ข้อมูลถูกลบเรียบร้อยแล้ว', 'success');
+        } else {
+          hideLoading();
+          showAlert('ข้อผิดพลาด', result.error, 'error');
         }
+      } catch (err) {
+        hideLoading();
+        showAlert('ข้อผิดพลาด', err.toString(), 'error');
       }
     });
   });
@@ -115,7 +142,7 @@ $(document).ready(function () {
 
 // --- MAIN DATA LOADING ---
 async function loadAllData(restoreFilter = false) {
-  if (!Swal.isVisible()) Swal.fire({ title: 'กำลังโหลดข้อมูล...', text: 'โปรดรอสักครู่', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+  if (!document.getElementById('customAlertModal').classList.contains('show')) showLoading('โปรดรอสักครู่...');
 
   try {
     const [resData, resAdd, resPie, resBar] = await Promise.all([
@@ -135,10 +162,11 @@ async function loadAllData(restoreFilter = false) {
     initRoomButtons();
     renderCharts(resPie, resBar);
 
-    if (restoreFilter && currentSelectedRoom) filterTables(currentSelectedRoom);
-    if (!restoreFilter) Swal.close();
+    if (currentSelectedRoom) filterTables(currentSelectedRoom);
+    if (!restoreFilter) hideLoading();
   } catch (error) {
-    Swal.fire('เกิดข้อผิดพลาด', 'ไม่สามารถเชื่อมต่อฐานข้อมูลได้', 'error');
+    hideLoading();
+    showAlert('เกิดข้อผิดพลาด', 'ไม่สามารถเชื่อมต่อฐานข้อมูลได้', 'error');
   }
 }
 
@@ -158,7 +186,7 @@ async function loadLibraryData() {
     renderLibrary(libraryData);
   } catch (err) {
     $('#lib-loading').hide();
-    Swal.fire('ข้อผิดพลาด', 'ไม่สามารถโหลดข้อมูลคลังผลงานได้', 'error');
+    showAlert('ข้อผิดพลาด', 'ไม่สามารถโหลดข้อมูลคลังผลงานได้', 'error');
   }
 }
 
@@ -246,7 +274,7 @@ function renderQuestions() {
 function handleFileSelect(input, yearId) {
   if (input.files && input.files[0]) {
     let file = input.files[0];
-    if (file.size > 5 * 1024 * 1024) { Swal.fire('ขนาดไฟล์เกิน', 'กรุณาอัปโหลดไม่เกิน 5MB', 'warning'); input.value = ''; return; }
+    if (file.size > 5 * 1024 * 1024) { showAlert('ขนาดไฟล์เกิน', 'กรุณาอัปโหลดไม่เกิน 5MB', 'warning'); input.value = ''; return; }
     let card = $(input).closest('.upload-card'); card.addClass('active');
     $(`#progress-wrap-${yearId}`).fadeIn(); $(`#filename-${yearId}`).text(file.name);
     $(`#icon-status-${yearId}`).text('check_circle');
@@ -260,11 +288,11 @@ async function submitAssessment(e) {
   const fileInput67 = document.getElementById('file67');
 
   if (!fileInput66.files[0] || !fileInput67.files[0]) {
-    Swal.fire({ icon: 'error', title: 'กรุณาแนบไฟล์ให้ครบ', text: 'จำเป็นต้องอัปโหลดหลักฐานทั้งปี 2566 และ 2567', confirmButtonColor: '#f59e0b' });
+    showAlert('กรุณาแนบไฟล์ให้ครบ', 'จำเป็นต้องอัปโหลดหลักฐานทั้งปี 2566 และ 2567', 'error');
     return;
   }
 
-  Swal.fire({ title: 'กำลังบันทึกและอัปโหลด...', text: 'โปรดอย่าปิดหน้าจอนี้', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+  showLoading('โปรดอย่าปิดหน้าจอนี้...');
 
   const formData = new FormData();
   formData.append('stdId', $('#modalStdId').val());
@@ -289,13 +317,16 @@ async function submitAssessment(e) {
 
     if (result.success) {
       await loadAllData(true);
-      Swal.fire({ icon: 'success', title: 'บันทึกเรียบร้อย', text: 'ข้อมูลของท่านถูกจัดเก็บเข้าระบบแล้ว', timer: 2000, showConfirmButton: false });
+      hideLoading();
+      showAlert('บันทึกเรียบร้อย', 'ข้อมูลของท่านถูกจัดเก็บเข้าระบบแล้ว', 'success');
       $('#assessModal').modal('hide');
     } else {
-      Swal.fire('เกิดข้อผิดพลาด', result.error || 'Server Error', 'error');
+      hideLoading();
+      showAlert('เกิดข้อผิดพลาด', result.error || 'Server Error', 'error');
     }
   } catch (err) {
-    Swal.fire('ข้อผิดพลาดการเชื่อมต่อ', err.toString(), 'error');
+    hideLoading();
+    showAlert('ข้อผิดพลาดการเชื่อมต่อ', err.toString(), 'error');
   }
 }
 
@@ -309,7 +340,7 @@ async function generateAIReport() {
     $('#ai-result').html(html).fadeIn();
   } catch (error) {
     $('#ai-loader').hide();
-    Swal.fire('ข้อผิดพลาด', 'ไม่สามารถเชื่อมต่อ AI ได้', 'error');
+    showAlert('ข้อผิดพลาด', 'ไม่สามารถเชื่อมต่อ AI ได้', 'error');
   }
 }
 
