@@ -12,6 +12,9 @@ RUN npm install
 # Copy all files
 COPY . .
 
+# Remove prisma.config.ts as it requires tsx which is not installed in production alpine
+RUN rm -f prisma.config.ts
+
 # Generate Prisma Client
 RUN npx prisma generate
 
