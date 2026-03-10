@@ -59,14 +59,19 @@
         }
 
         .navbar .btn-menu {
-            background: rgba(255, 255, 255, 0.1);
+            background: transparent;
             color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: none;
+            padding: 0;
+            margin-right: 15px;
+            box-shadow: none;
         }
 
         .navbar .btn-menu:hover {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
+            background: transparent;
+            color: #cbd5e1;
+            transform: scale(1.1);
+            box-shadow: none;
         }
 
         .offcanvas-header {
@@ -394,10 +399,6 @@
     <nav class="navbar fixed-top" id="mainNavbar">
         <div class="container">
             <div class="d-flex align-items-center">
-                <button class="btn btn-menu shadow-sm" type="button" data-bs-toggle="offcanvas"
-                    data-bs-target="#mainMenu">
-                    <i class="material-icons-round">menu</i>
-                </button>
                 <img src="https://upload.wikimedia.org/wikipedia/commons/9/9f/RSL001.png" alt="School Logo"
                     class="school-logo" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));">
                 <div>
