@@ -2,10 +2,13 @@ version: '3.8'
 
 services:
   iqa-app:
-    build: .
+    image: nginx:alpine
     container_name: iqa-app
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./:/usr/share/nginx/html
     ports:
-      - "4001:4001"
+      - "4001:80"
     restart: unless-stopped
     networks:
       - coolify
