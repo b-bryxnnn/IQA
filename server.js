@@ -33,6 +33,9 @@ const upload = multer({ storage: storage });
 // Ensure uploads directory exists (Normally done in setup, just serving static for now)
 app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
 
+// Serve Vite frontend in production
+app.use(express.static(path.join(__dirname, 'dist')));
+
 
 // ==========================================
 // 1. ดึงรายชื่อครูทั้งหมด (getData)
@@ -288,6 +291,11 @@ app.post('/api/ai/analysis', async (req, res) => {
     }
 });
 
+
+// Catch-all route to serve the frontend index.html for unknown routes (SPA fallback)
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

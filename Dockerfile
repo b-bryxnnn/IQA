@@ -1,10 +1,25 @@
-FROM nginx:alpine
+FROM node:18-alpine
 
-# Copy custom nginx config
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Set working directory
+WORKDIR /app
 
-# Copy all static files to the Nginx html directory
-COPY . /usr/share/nginx/html
+# Copy package.json and package-lock.json
+COPY package*.json ./
 
-# Expose port 80 inside the container
-EXPOSE 80
+# Install dependencies
+RUN npm install
+
+# Copy all files
+COPY . .
+
+# Generate Prisma Client
+RUN npx prisma generate
+
+# Build the Vite frontend
+RUN npm run build
+
+# Expose port 3000
+EXPOSE 3000
+
+# Start the Node.js Express server
+CMD ["npm", "run", "server"]
