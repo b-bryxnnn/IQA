@@ -81,8 +81,8 @@ const levelLinks = {
         "m6": "https://script.google.com/macros/s/AKfycbyS4afylyOrvNHMWa1OBYKCpoZqP0CxoZ4KmgKbvaqzRIIiKUAfKOYflYJQwbOekqRM/exec"
     },
     "1.2.4": {
-        "m1": "https://script.google.com/a/macros/rsl.ac.th/s/AKfycbwTlUDH1L8hk6XL1UvLYMQa8wP-ZEwGI3TvsOPvj2oXbci3eczpRWgQOQnjHGnMlhRkBQ/exec",
-        "m2": "https://script.google.com/a/macros/rsl.ac.th/s/AKfycbyeQnFlJqHtua-md3sAniJ8X65NQefuNY9l-W0PLaZJVMTTbiGZtwqX45SYvwzk_qegCA/exec",
+        "m1": "/dashboard.html",
+        "m2": "/dashboard.html",
         "m3": "https://script.google.com/macros/s/AKfycbzmO56_4FYI23MbOk1Ynt3Vp54o8vvfMJHkQV1OVOBaNdgoi5832MAhVB8O3jm7y94Hyg/exec",
         "m4": "https://script.google.com/macros/s/AKfycbw76VNaXOXGbZXCaBrXaWUdMD0u8TgALlB3VibtealtUYv_ST-i6icqITxBgjIjSmTZ/exec",
         "m5": "https://script.google.com/macros/s/AKfycby13nRJ04NJoGJ8VmJHoYBJrtkeOBk2Qu7Fkq9vXFmG0OR2-deAD4gZjk9_xK2NwthQCQ/exec",
