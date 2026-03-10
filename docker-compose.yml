@@ -4,6 +4,5 @@ services:
   iqa-app:
     build: .
     container_name: iqa-app
-    ports:
-      - "4001:80"
+    network_mode: "host"
     restart: unless-stopped
