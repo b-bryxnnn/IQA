@@ -10,6 +10,184 @@ const assessmentCriteria = [
   { title: "3. การประยุกต์ใช้ (Application)", items: ["3.1 ยกสถานการณ์จริง/ปัญหาในชีวิตประจำวันมาเป็นโจทย์", "3.2 มีช่วงเวลาให้สรุปแนวทางการนำความรู้ไปใช้จริง", "3.3 ชิ้นงานสุดท้ายสามารถนำไปแก้ปัญหาหรือใช้ประโยชน์ได้"] }
 ];
 
+// --- SPA LANDING PAGE DATA & LOGIC ---
+const levelLinks = {
+  "1.1.2": { "m1": "dashboard", "m2": "dashboard", "m3": "dashboard", "m4": "dashboard", "m5": "dashboard", "m6": "dashboard" },
+  "1.2.1": { "m1": "dashboard", "m2": "dashboard", "m3": "dashboard", "m4": "dashboard", "m5": "dashboard", "m6": "dashboard" },
+  "1.2.2": { "m1": "dashboard", "m2": "dashboard", "m3": "dashboard", "m4": "dashboard", "m5": "dashboard", "m6": "dashboard" },
+  "1.2.3": { "m1": "dashboard", "m2": "dashboard", "m3": "dashboard", "m4": "dashboard", "m5": "dashboard", "m6": "dashboard" },
+  "1.2.4": { "m1": "dashboard", "m2": "dashboard", "m3": "dashboard", "m4": "dashboard", "m5": "dashboard", "m6": "dashboard" }
+};
+
+const standardsData = [
+  {
+    id: 1, title: "มาตรฐานที่ 1 ด้านคุณภาพผู้เรียน", subTitle: "1.1 ผลสัมฤทธิ์ทางวิชาการ",
+    items: [
+      { id: "1.1.1", text: "ความสามารถในการอ่าน เขียน สื่อสาร", img: "https://img5.pic.in.th/file/secure-sv1/551ffb37f69ea1028.png", link: "INTERNAL_LEVELS" },
+      { id: "1.1.2", text: "การคิดวิเคราะห์ คิดอย่างมีวิจารณญาณ", img: "https://img5.pic.in.th/file/secure-sv1/65a5f6b02800138f8.png", link: "INTERNAL_LEVELS" },
+      { id: "1.1.3", text: "ความสามารถในการสร้างนวัตกรรม", img: "https://img2.pic.in.th/pic/8d66af8ec01c69959.png", link: "INTERNAL_LEVELS" },
+      { id: "1.1.4", text: "การใช้เทคโนโลยีสารสนเทศ", img: "https://img2.pic.in.th/pic/7bd7c29b829d74aca.png", link: "INTERNAL_LEVELS" },
+      { id: "1.1.5", text: "ผลสัมฤทธิ์ทางการเรียน", img: "https://img5.pic.in.th/file/secure-sv1/95e4506daf48abb91.png", link: "dashboard" },
+      { id: "1.1.6", text: "ความพร้อมในการศึกษาต่อ", img: "https://img2.pic.in.th/pic/10250a409f1f581446.png", link: "INTERNAL_LEVELS" }
+    ]
+  },
+  {
+    id: 1.2, title: "มาตรฐานที่ 1 (ต่อ)", subTitle: "1.2 คุณลักษณะที่พึงประสงค์",
+    items: [
+      { id: "1.2.1", text: "คุณลักษณะและค่านิยมที่ดี", img: "https://img5.pic.in.th/file/secure-sv1/468bf0ff1bb53de56.png", link: "INTERNAL_LEVELS" },
+      { id: "1.2.2", text: "ความภูมิใจในท้องถิ่น", img: "https://img2.pic.in.th/pic/1ce604008b5954229.png", link: "INTERNAL_LEVELS" },
+      { id: "1.2.3", text: "การยอมรับความแตกต่าง", img: "https://img2.pic.in.th/pic/349535e14fe1d68ea.png", link: "INTERNAL_LEVELS" },
+      { id: "1.2.4", text: "สุขภาวะทางร่างกาย และจิตสังคม", img: "https://img5.pic.in.th/file/secure-sv1/22ec12221aa429ec5.png", link: "INTERNAL_LEVELS" }
+    ]
+  },
+  {
+    id: 2, title: "มาตรฐานที่ 2", subTitle: "กระบวนการบริหารและการจัดการ",
+    items: [
+      { id: "2.1", text: "เป้าหมายวิสัยทัศน์และพันธกิจ", img: "https://cdn-icons-png.flaticon.com/512/3233/3233497.png", link: "dashboard" },
+      { id: "2.2", text: "ระบบบริหารจัดการคุณภาพ", img: "https://cdn-icons-png.flaticon.com/512/2620/2620677.png", link: "dashboard" },
+      { id: "2.3", text: "งานวิชาการที่เน้นผู้เรียนรอบด้าน", img: "https://cdn-icons-png.flaticon.com/512/2038/2038022.png", link: "dashboard" },
+      { id: "2.4", text: "พัฒนาครูและบุคลากร", img: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png", link: "dashboard" },
+      { id: "2.5", text: "สภาพแวดล้อมและสังคม", img: "https://cdn-icons-png.flaticon.com/512/2829/2829824.png", link: "dashboard" },
+      { id: "2.6", text: "ระบบเทคโนโลยีสารสนเทศ", img: "https://cdn-icons-png.flaticon.com/512/3067/3067253.png", link: "dashboard" }
+    ]
+  },
+  {
+    id: 3, title: "มาตรฐานที่ 3", subTitle: "การจัดการเรียนการสอนที่เน้นผู้เรียนเป็นสำคัญ",
+    items: [
+      { id: "3.1", text: "การจัดการเรียนรู้ผ่านกระบวนการคิด", img: "https://cdn-icons-png.flaticon.com/512/2436/2436636.png", link: "dashboard" },
+      { id: "3.2", text: "การใช้สื่อเทคโนโลยีและแหล่งเรียนรู้", img: "https://cdn-icons-png.flaticon.com/512/2997/2997235.png", link: "dashboard" },
+      { id: "3.3", text: "การบริหารจัดการชั้นเรียน", img: "https://cdn-icons-png.flaticon.com/512/3048/3048127.png", link: "dashboard" },
+      { id: "3.4", text: "ตรวจสอบและประเมินผู้เรียนอย่างเป็นระบบ และนำผลมาพัฒนาผู้เรียน", img: "https://cdn-icons-png.flaticon.com/512/3048/3048127.png", link: "dashboard" },
+      { id: "3.5", text: "มีการแลกเปลี่ยนเรียนรู้และให้ข้อมูลสะท้อนกลับ", img: "https://cdn-icons-png.flaticon.com/512/3048/3048127.png", link: "dashboard" }
+    ]
+  }
+];
+
+const levelsData = [
+  { id: "m1", name: "ม.1", img: "https://cdn-icons-png.flaticon.com/512/3405/3405898.png" },
+  { id: "m2", name: "ม.2", img: "https://cdn-icons-png.flaticon.com/512/3405/3405898.png" },
+  { id: "m3", name: "ม.3", img: "https://cdn-icons-png.flaticon.com/512/3405/3405898.png" },
+  { id: "m4", name: "ม.4", img: "https://cdn-icons-png.flaticon.com/512/3405/3405923.png" },
+  { id: "m5", name: "ม.5", img: "https://cdn-icons-png.flaticon.com/512/3405/3405923.png" },
+  { id: "m6", name: "ม.6", img: "https://cdn-icons-png.flaticon.com/512/3405/3405923.png" }
+];
+
+let pageStack = [];
+let currentIndicatorID = null;
+
+function showMainMenu() {
+  pageStack = [];
+  currentIndicatorID = null;
+  updateUI(false);
+
+  let html = '';
+  standardsData.forEach(section => {
+    let cards = '';
+    if (section.items && section.items.length > 0) {
+      section.items.forEach(item => {
+        let isInternal = item.link === 'INTERNAL_LEVELS';
+        let btnClass = isInternal ? 'js-internal-link' : 'js-action-btn';
+        let btnText = isInternal ? 'เลือกข้อมูลระดับชั้น' : 'เปิดเอกสาร';
+        let btnIcon = isInternal ? '<i class="fas fa-layer-group"></i>' : '<i class="fas fa-external-link-alt"></i>';
+
+        cards += `
+                <div class="box">
+                    <div>
+                        <img src="${item.img}" alt="${item.id}" loading="lazy">
+                        <h3>${item.id}</h3>
+                        <p>${item.text}</p>
+                    </div>
+                    <button class="btn ${btnClass}" data-link="${item.link}" data-id="${item.id}">
+                        ${btnText} ${btnIcon}
+                    </button>
+                </div>
+            `;
+      });
+
+      html += `
+            <div class="standard-section">
+                <div class="section-header">
+                    <h2>${section.title}</h2>
+                    ${section.subTitle ? `<h3>${section.subTitle}</h3>` : ''}
+                </div>
+                <div class="box-container">${cards}</div>
+            </div>
+        `;
+    }
+  });
+  $('#content-area').html(html);
+}
+
+function showLevelsPage(indicatorID) {
+  pageStack.push('levels');
+  currentIndicatorID = indicatorID;
+  updateUI(true, `มาตรฐาน ${indicatorID} > เลือกระดับชั้น`);
+
+  const linksForThisItem = levelLinks[indicatorID] || {};
+
+  let html = `
+    <div class="standard-section">
+        <div class="section-header"><h2>ข้อมูลระดับชั้น (มาตรฐาน ${indicatorID})</h2></div>
+        <div class="box-container">
+            ${levelsData.map(level => {
+    let targetLink = linksForThisItem[level.id] || '#';
+    return `
+                <div class="box">
+                    <div>
+                        <img src="${level.img}" alt="${level.name}">
+                        <h3>${level.name}</h3>
+                        <p>กดเพื่อเปิดข้อมูล ${level.name}</p>
+                    </div>
+                    <button class="btn js-action-btn" data-link="${targetLink}" data-id="${level.name}">
+                        เปิดข้อมูล ${level.name} <i class="fas fa-folder-open"></i>
+                    </button>
+                </div>
+                `;
+  }).join('')}
+        </div>
+    </div>
+    `;
+  $('#content-area').html(html);
+  window.scrollTo(0, 0);
+}
+
+function updateUI(isSubPage, text = "") {
+  if (isSubPage) {
+    $('#page-nav-bar').show();
+    $('.nav-title').text('RS.L Active Learning');
+    $('.nav-subtitle').text('ระบบนิเทศและประเมินการสอน');
+  } else {
+    $('#page-nav-bar').hide();
+    $('.nav-title').text('Internal Quality Assurance');
+    $('.nav-subtitle').text('ระบบการประกันคุณภาพภายในสถานศึกษา');
+  }
+  $('#breadcrumb').text(text);
+}
+
+function switchPage(targetPage) {
+  $('.menu-link').removeClass('active');
+  $('.menu-link[data-page="' + targetPage + '"]').addClass('active');
+  $('.page-section').hide();
+  $('#page-' + targetPage).fadeIn(300);
+
+  let offcanvasEl = document.getElementById('mainMenu');
+  if (offcanvasEl) {
+    let offcanvas = bootstrap.Offcanvas.getInstance(offcanvasEl);
+    if (offcanvas) offcanvas.hide();
+  }
+
+  if (targetPage === 'library') {
+    window.scrollTo(0, 0);
+    loadLibraryData();
+  } else if (targetPage === 'home') {
+    window.scrollTo(0, 0);
+    showMainMenu();
+  } else {
+    window.scrollTo(0, 0);
+    updateUI(true, 'ระบบประเมิน');
+  }
+}
+
 // Custom Modal Helpers
 function showLoading(text) {
   $('#loadingOverlayText').text(text || 'กำลังโหลด...');
@@ -45,21 +223,54 @@ $(document).ready(function () {
     currentSelectedRoom = urlParams.get('room');
   }
 
+  // Initialize Home
+  showMainMenu();
+
   renderQuestions();
   loadAllData();
 
-  // Navigation Logic
+  // Sidebar Menu Navigation Logic
   $('.menu-link').on('click', function (e) {
     e.preventDefault();
     let targetPage = $(this).data('page');
-    $('.menu-link').removeClass('active'); $(this).addClass('active');
-    $('.page-section').hide(); $('#page-' + targetPage).fadeIn(300);
+    switchPage(targetPage);
+  });
 
-    let offcanvasEl = document.getElementById('mainMenu');
-    let offcanvas = bootstrap.Offcanvas.getInstance(offcanvasEl);
-    if (offcanvas) offcanvas.hide();
+  // Home Landing Page Clicks
+  $(document).on('click', '.js-back-btn', function () {
+    pageStack.pop();
+    showMainMenu();
+  });
 
-    if (targetPage === 'library') window.scrollTo(0, 0);
+  $(document).on('click', '.js-internal-link', function () {
+    let id = $(this).data('id');
+    showLevelsPage(id);
+  });
+
+  $(document).on('click', '.js-action-btn', function () {
+    let link = $(this).data('link');
+    if (!link || link === '#' || link === '' || link === 'undefined') {
+      showAlert('ไม่พบลิงก์ข้อมูล', 'ยังไม่ได้ใส่ลิงก์สำหรับข้อมูลนี้', 'warning');
+      return;
+    }
+
+    // Check if it's an internal SPA link like 'dashboard' or '/dashboard.html'
+    if (link === 'dashboard' || link === '/dashboard.html' || link.startsWith('/')) {
+      switchPage('dashboard');
+    } else {
+      // External link
+      const isLine = /Line/i.test(navigator.userAgent);
+      showLoading('กำลังเปิดลิงก์...');
+      setTimeout(() => {
+        hideLoading();
+        if (isLine) {
+          let target = link.includes('?') ? link + '&openExternalBrowser=1' : link + '?openExternalBrowser=1';
+          window.location.href = target;
+        } else {
+          window.open(link, '_blank');
+        }
+      }, 500);
+    }
   });
 
   $('#navRepoLink').on('click', function () {
@@ -397,4 +608,33 @@ function renderCharts(pieD, barD) {
 function filterTables(room) {
   let search = room ? `^${room}$` : '';
   [table1, table2, table3].forEach(t => t.column(2).search(search, true, false).draw());
+}
+
+// Chat functions
+const CHAT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxSIdVUxOtEG4XC3uaX7Mrrx-t3nl560eD9jWE5e9PTI8vF906xvaaj2mA3SD1n4FCM/exec";
+let isChatLoaded = false;
+window.toggleChat = function () {
+  const chatContainer = document.getElementById('chatContainer');
+  const chatBtn = document.getElementById('chatBtn');
+  const chatIcon = document.getElementById('chatIcon');
+  const chatIframe = document.getElementById('chatIframe');
+  const chatLoading = document.getElementById('chat-loading');
+
+  if (chatContainer.style.display === 'flex') {
+    chatContainer.style.display = 'none';
+    chatBtn.classList.remove('active');
+    chatIcon.className = 'fas fa-comment-dots';
+  } else {
+    chatContainer.style.display = 'flex';
+    chatBtn.classList.add('active');
+    chatIcon.className = 'fas fa-times';
+
+    if (!isChatLoaded) {
+      chatIframe.src = CHAT_WEB_APP_URL;
+      chatIframe.onload = () => {
+        chatLoading.style.display = 'none';
+      };
+      isChatLoaded = true;
+    }
+  }
 }

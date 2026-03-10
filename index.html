@@ -3,275 +3,276 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Internal Quality Assurance</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>RS.L Active Learning</title>
 
     <link
-        href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Kanit:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap5.min.css">
+    <link rel="stylesheet" href="/src/dashboard.css">
 
     <style>
-        /* ================= THEME & COLORS ================= */
         :root {
-            --primary-color: #1a365d;
-            /* Deep Navy Blue */
-            --secondary-color: #d97706;
-            /* Elegant Gold */
-            --bg-color: #f8fafc;
-            /* Very Light Gray/Blue */
-            --text-color: #1e293b;
-            --card-bg: #ffffff;
-            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --header-bg: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Sarabun', sans-serif;
-            text-decoration: none;
+            --bs-primary: #1a365d;
+            --bs-secondary: #d97706;
+            --bs-light: #f8fafc;
+            --main-bg: #f8fafc;
         }
 
         body {
-            background-color: var(--bg-color);
+            background-color: var(--main-bg);
+            color: #1e293b;
+            font-family: 'Sarabun', sans-serif;
             background-image: url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%231e3a8a" fill-opacity="0.03"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');
-            min-height: 100vh;
-            color: var(--text-color);
-            padding-bottom: 80px;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        .fw-bold {
+            font-family: 'Kanit', sans-serif !important;
         }
 
-        /* ================= HEADER ================= */
-        .header-wrapper {
-            background: var(--header-bg);
-            padding: 40px 0;
-            margin-bottom: 40px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            border-bottom: 4px solid var(--secondary-color);
+        .navbar {
+            background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%) !important;
+            color: white !important;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border-bottom: 3px solid var(--bs-secondary);
         }
 
-        header {
-            text-align: center;
-            color: #fff;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        header h1 {
+        .navbar .nav-title {
+            color: white !important;
             font-family: 'Kanit', sans-serif;
-            font-size: 2.2rem;
-            font-weight: 700;
-            margin-bottom: 10px;
             letter-spacing: 0.5px;
         }
 
-        header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-            color: #e2e8f0;
+        .navbar .nav-subtitle {
+            color: #cbd5e1 !important;
         }
 
-        /* ================= NAV BAR ================= */
-        #nav-bar {
-            display: none;
-            margin-bottom: 30px;
-            max-width: 1200px;
-            margin: 0 auto 30px auto;
-            padding: 0 20px;
+        .navbar .btn-menu {
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .back-btn {
-            background: #ffffff;
+        .navbar .btn-menu:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .offcanvas-header {
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .menu-link.active {
+            background-color: #f1f5f9;
+            border-left-color: var(--bs-primary);
+            color: var(--bs-primary);
+            font-weight: bold;
+        }
+
+        .stat-card.bg-grad-blue {
+            background: #ffffff !important;
             border: 1px solid #e2e8f0;
-            padding: 8px 20px;
-            border-radius: 6px;
-            font-size: 1rem;
-            color: var(--primary-color);
-            font-weight: 500;
-            cursor: pointer;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            transition: all 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
+            color: #1e3a8a !important;
+            border-top: 4px solid #1e3a8a;
         }
 
-        .back-btn:hover {
+        .stat-card.bg-grad-green {
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0;
+            color: #047857 !important;
+            border-top: 4px solid #047857;
+        }
+
+        .stat-card.bg-grad-orange {
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0;
+            color: #d97706 !important;
+            border-top: 4px solid #d97706;
+        }
+
+        .stat-card .stat-icon {
+            opacity: 0.8 !important;
+        }
+
+        .bg-white-glass {
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .chart-title {
+            color: var(--bs-primary);
+            font-weight: bold;
+            font-family: 'Kanit', sans-serif;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+
+        .nav-pills .nav-link {
+            color: #475569;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        .nav-pills .nav-link.active,
+        .nav-pills .show>.nav-link {
+            color: #fff;
+            background-color: var(--bs-primary);
+        }
+
+        .btn-action-orange {
+            background-color: #ffffff;
+            color: var(--bs-primary);
+            border: 1px solid var(--bs-primary);
+        }
+
+        .btn-action-orange:hover {
+            background-color: var(--bs-primary);
+            color: #ffffff;
+        }
+
+        .room-btn {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            color: #475569;
+        }
+
+        .room-btn.active {
+            background: var(--bs-primary);
+            color: #ffffff;
+            border-color: var(--bs-primary);
+        }
+
+        .repo-card {
+            border: 1px solid #e2e8f0;
+            background: #ffffff;
+            border-top: 3px solid var(--bs-primary);
+        }
+
+        .repo-badge {
+            background: #f1f5f9;
+            color: var(--bs-primary);
+            font-weight: bold;
+            border: 1px solid #e2e8f0;
+        }
+
+        .btn-file-link {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            color: #1e293b;
+        }
+
+        .btn-file-link:hover {
             background: #f1f5f9;
             border-color: #cbd5e1;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05) !important;
+            color: var(--bs-primary)
         }
 
-        #breadcrumb {
-            margin-left: 15px;
-            color: var(--text-color);
-            font-weight: 600;
-            font-size: 1.1rem;
+        .modal-header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%) !important;
+            border-bottom: 3px solid var(--bs-secondary);
         }
 
-        /* ================= CONTENT LAYOUT ================= */
-        .standard-section {
-            margin-bottom: 50px;
-            animation: fadeInUp 0.6s ease-out;
+        .modal-title {
+            font-family: 'Sarabun', sans-serif;
+            letter-spacing: 0.5px;
         }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .upload-card.active {
+            border-color: var(--bs-primary);
+            background: #f8fafc;
         }
 
-        .section-header {
-            background: #fff;
-            padding: 15px 25px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-            display: block;
-            border-left: 5px solid var(--primary-color);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-            border-bottom: 1px solid #f1f5f9;
+        .upload-icon-main {
+            color: var(--bs-primary);
         }
 
-        .section-header h2 {
-            font-family: 'Kanit', sans-serif;
-            color: var(--primary-color);
-            font-size: 1.3rem;
-            font-weight: 700;
+        .custom-progress-bar {
+            background: linear-gradient(90deg, #1a365d 0%, #2563eb 100%);
         }
 
-        .section-header h3 {
-            color: #64748b;
-            font-size: 1.05rem;
-            margin-top: 5px;
+        .btn-save {
+            background: linear-gradient(135deg, #1a365d 0%, #2563eb 100%) !important;
+            border: none;
+        }
+
+        .btn-save:hover {
+            background: linear-gradient(135deg, #0f172a 0%, #1d4ed8 100%) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(30, 58, 138, 0.4) !important;
+        }
+
+        /* Custom UI Modals */
+        #customAlertModal .modal-header {
+            background: #ffffff !important;
+            border-bottom: 1px solid #e2e8f0;
+            color: #1e293b;
+        }
+
+        #customAlertModal .modal-title {
+            color: #1e293b;
+            font-weight: bold;
+        }
+
+        #customAlertModal .modal-footer {
+            border-top: none;
+        }
+
+        .btn-formal-primary {
+            background-color: var(--bs-primary);
+            color: white;
+            border: none;
+            padding: 8px 20px;
             font-weight: 500;
-        }
-
-        .box-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-        }
-
-        /* ================= CARD STYLE ================= */
-        .box {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 30px;
-            text-align: center;
-            box-shadow: var(--card-shadow);
-            transition: all 0.2s ease;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            border: 1px solid #e2e8f0;
-            height: 100%;
-        }
-
-        .box:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            border-color: #cbd5e1;
-        }
-
-        .box img {
-            height: 120px;
-            object-fit: contain;
-            margin-bottom: 20px;
-            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.05));
-            transition: 0.3s;
-        }
-
-        .box:hover img {
-            transform: scale(1.03);
-        }
-
-        .box h3 {
-            font-family: 'Kanit', sans-serif;
-            font-size: 1.25rem;
-            color: var(--primary-color);
-            margin-bottom: 12px;
-            font-weight: 700;
-        }
-
-        .box p {
-            color: #475569;
-            font-size: 1rem;
-            line-height: 1.6;
-            margin-bottom: 25px;
-            flex-grow: 1;
-        }
-
-        /* ================= BUTTONS ================= */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            background: #ffffff;
-            color: var(--primary-color);
-            font-size: 1rem;
-            font-weight: 600;
-            padding: 10px 20px;
             border-radius: 6px;
-            border: 1px solid var(--primary-color);
-            cursor: pointer;
-            width: 100%;
-            transition: all 0.2s ease;
         }
 
-        .btn:hover {
-            background: var(--primary-color);
-            color: #ffffff;
+        .btn-formal-primary:hover {
+            background-color: #0f172a;
+            color: white;
         }
 
-        .btn.js-action-btn:hover {
-            background: var(--secondary-color);
-            border-color: var(--secondary-color);
-            color: #ffffff;
+        .btn-formal-danger {
+            background-color: #dc2626;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            font-weight: 500;
+            border-radius: 6px;
         }
 
-        /* ================= SKELETON LOADING ================= */
-        .skeleton-wrapper {
-            display: grid;
-            gap: 20px;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        .btn-formal-danger:hover {
+            background-color: #b91c1c;
+            color: white;
         }
 
-        .skeleton-box {
-            background: #e2e8f0;
-            height: 300px;
-            border-radius: 12px;
-            animation: pulse 1.5s infinite;
+        .btn-formal-secondary {
+            background-color: #f1f5f9;
+            color: #475569;
+            border: 1px solid #cbd5e1;
+            padding: 8px 20px;
+            font-weight: 500;
+            border-radius: 6px;
         }
 
-        @keyframes pulse {
-            0% {
-                opacity: 0.6;
-            }
-
-            50% {
-                opacity: 0.8;
-            }
-
-            100% {
-                opacity: 0.6;
-            }
+        .btn-formal-secondary:hover {
+            background-color: #e2e8f0;
+            color: #1e293b;
         }
 
-        /* ================= CHAT WIDGET ================= */
+        /* Chat Widget */
         .chat-widget-container {
             position: fixed;
             bottom: 90px;
@@ -314,7 +315,7 @@
             right: 20px;
             width: 60px;
             height: 60px;
-            background: var(--primary-color);
+            background: var(--bs-primary);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -330,7 +331,7 @@
 
         .chat-toggle-btn:hover {
             transform: scale(1.05);
-            background: var(--secondary-color);
+            background: var(--bs-secondary);
         }
 
         .chat-toggle-btn.active {
@@ -338,112 +339,7 @@
             transform: rotate(90deg);
         }
 
-        /* ================= CUSTOM MODAL ================= */
-        .custom-modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(4px);
-            z-index: 99999;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .custom-modal-overlay.show {
-            display: flex;
-            opacity: 1;
-        }
-
-        .custom-modal {
-            background: #fff;
-            width: 90%;
-            max-width: 450px;
-            border-radius: 12px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            overflow: hidden;
-            transform: translateY(20px) scale(0.95);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border-top: 5px solid var(--primary-color);
-        }
-
-        .custom-modal-overlay.show .custom-modal {
-            transform: translateY(0) scale(1);
-        }
-
-        .custom-modal-header {
-            padding: 20px 25px 10px;
-            text-align: center;
-        }
-
-        .custom-modal-header i {
-            font-size: 3rem;
-            color: var(--secondary-color);
-            margin-bottom: 15px;
-        }
-
-        .custom-modal-title {
-            font-family: 'Kanit', sans-serif;
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--text-color);
-            margin-bottom: 10px;
-        }
-
-        .custom-modal-body {
-            padding: 0 25px 25px;
-            font-size: 1rem;
-            color: #475569;
-            text-align: center;
-            line-height: 1.5;
-        }
-
-        .custom-modal-footer {
-            padding: 15px 25px;
-            background: #f8fafc;
-            border-top: 1px solid #e2e8f0;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .custom-modal-btn {
-            padding: 10px 25px;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            border: none;
-            transition: background 0.2s;
-        }
-
-        .custom-modal-btn.primary {
-            background: var(--primary-color);
-            color: white;
-        }
-
-        .custom-modal-btn.primary:hover {
-            background: #152c4d;
-        }
-
-        /* Mobile */
         @media (max-width: 768px) {
-            header h1 {
-                font-size: 1.8rem;
-            }
-
-            .container {
-                padding: 20px;
-            }
-
-            .section-header h2 {
-                font-size: 1.3rem;
-            }
-
             .chat-widget-container {
                 width: 90%;
                 right: 5%;
@@ -451,372 +347,424 @@
                 height: 70vh;
             }
         }
+
+        /* Hide elements dynamically */
+        .nav-link-header {
+            display: none;
+        }
+
+        #page-nav-bar {
+            display: none;
+            margin-bottom: 30px;
+        }
+
+        .back-btn {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-size: 1rem;
+            color: var(--bs-primary);
+            font-weight: 500;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-btn:hover {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+        }
+
+        #breadcrumb {
+            margin-left: 15px;
+            color: #1e293b;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
     </style>
 </head>
 
 <body>
 
-    <div class="header-wrapper">
-        <header id="main-header">
-            <!-- Add logo to match formal theme if desired, otherwise just text -->
-            <h1><i class="fas fa-landmark text-secondary me-2"></i> Internal Quality Assurance</h1>
-            <p>ระบบการประกันคุณภาพภายในสถานศึกษา</p>
-        </header>
-    </div>
-
-    <div class="container">
-
-        <div id="nav-bar">
-            <button class="back-btn js-back-btn">
-                <i class="fas fa-arrow-left"></i> ย้อนกลับ
-            </button>
-            <span id="breadcrumb"></span>
+    <nav class="navbar fixed-top" id="mainNavbar">
+        <div class="container">
+            <div class="d-flex align-items-center">
+                <button class="btn btn-menu shadow-sm" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#mainMenu">
+                    <i class="material-icons-round">menu</i>
+                </button>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/9/9f/RSL001.png" alt="School Logo"
+                    class="school-logo" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));">
+                <div>
+                    <h5 class="m-0 nav-title">RS.L Active Learning</h5>
+                    <div class="nav-subtitle">ระบบนิเทศและประเมินการสอน</div>
+                </div>
+            </div>
         </div>
+    </nav>
 
-        <div id="content-area">
-            <div class="skeleton-wrapper">
-                <div class="skeleton-box"></div>
-                <div class="skeleton-box"></div>
-                <div class="skeleton-box"></div>
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="mainMenu" aria-labelledby="mainMenuLabel">
+        <div class="offcanvas-header align-items-center">
+            <div class="d-flex align-items-center">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/9/9f/RSL001.png" alt="Logo"
+                    style="height: 40px; margin-right: 10px;">
+                <h5 class="offcanvas-title fw-bold text-dark" id="mainMenuLabel">RS.L System</h5>
+            </div>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body bg-light">
+            <div class="d-grid gap-1">
+                <a class="menu-link active" data-page="home"><i class="material-icons-round">home</i> หน้าแรก (Home)</a>
+                <a class="menu-link" data-page="dashboard"><i class="material-icons-round">dashboard</i> ระบบประเมิน</a>
+                <a class="menu-link" data-page="library" id="navRepoLink"><i
+                        class="material-icons-round">inventory_2</i> คลังผลงาน (Repository)</a>
+                <a class="menu-link" data-page="report"><i class="material-icons-round">assessment</i> รายงานสรุป AI</a>
+            </div>
+            <div class="mt-auto pt-4 text-center">
+                <hr class="text-muted">
+                <small class="text-muted">ระบบการบริหารงาน<br>Version 4.0 AL (Local Hosted)</small>
             </div>
         </div>
     </div>
 
+    <div class="container pb-5 fade-in">
+
+        <!-- PAGE: HOME -->
+        <div id="page-home" class="page-section" style="display: block;">
+
+            <div id="page-nav-bar">
+                <button class="back-btn" id="goBackBtn">
+                    <i class="fas fa-arrow-left"></i> ย้อนกลับ
+                </button>
+                <span id="breadcrumb"></span>
+            </div>
+
+            <div id="content-area">
+                <div class="skeleton-wrapper">
+                    <div class="skeleton-box"></div>
+                    <div class="skeleton-box"></div>
+                    <div class="skeleton-box"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE: DASHBOARD -->
+        <div id="page-dashboard" class="page-section" style="display: none;">
+            <div class="row g-3 mb-4 mt-2">
+                <div class="col-6 col-md-3">
+                    <div class="card stat-card bg-grad-blue h-100">
+                        <div class="card-body">
+                            <h3 class="fw-bold mb-0" id="kpi-total">0</h3><small>ครูทั้งหมด</small><i
+                                class="material-icons-round stat-icon">groups</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="card stat-card bg-grad-green h-100">
+                        <div class="card-body">
+                            <h3 class="fw-bold mb-0" id="kpi-done">0</h3><small>ประเมินแล้ว</small><i
+                                class="material-icons-round stat-icon">check_circle</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="card stat-card bg-grad-orange h-100">
+                        <div class="card-body">
+                            <h3 class="fw-bold mb-0" id="kpi-pending">0</h3><small>คงเหลือ</small><i
+                                class="material-icons-round stat-icon">pending_actions</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="card stat-card bg-white text-dark h-100 border shadow-sm">
+                        <div class="card-body">
+                            <h3 class="fw-bold mb-0 text-primary" id="kpi-percent">0%</h3><small
+                                class="text-muted">ความสำเร็จ</small><i
+                                class="material-icons-round stat-icon text-muted">pie_chart</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4 mb-4">
+                <div class="col-lg-8">
+                    <div class="card bg-white-glass h-100 p-4">
+                        <div class="chart-title">ข้อมูลแบ่งตามกลุ่มสาระการเรียนรู้</div>
+                        <div style="height:280px"><canvas id="myBarChart"></canvas></div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card bg-white-glass h-100 p-4">
+                        <div class="chart-title">ภาพรวมการประเมิน</div>
+                        <div style="height:280px"><canvas id="myPieChart"></canvas></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card bg-white-glass p-4 mb-4">
+                <div class="mb-4">
+                    <label class="fw-bold text-primary mb-3"><i
+                            class="material-icons-round align-middle me-1">grid_view</i>
+                        เลือกกลุ่มสาระการเรียนรู้</label>
+                    <div id="roomButtonContainer" class="d-flex flex-wrap gap-2">
+                        <button class="btn room-btn active" data-room="">ทั้งหมด</button>
+                    </div>
+                </div>
+
+                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                    <li class="nav-item"><button class="nav-link active" data-bs-toggle="pill"
+                            data-bs-target="#tab-all">ทั้งหมด</button></li>
+                    <li class="nav-item"><button class="nav-link" data-bs-toggle="pill"
+                            data-bs-target="#tab-noteval">ยังไม่ประเมิน</button></li>
+                    <li class="nav-item"><button class="nav-link" data-bs-toggle="pill"
+                            data-bs-target="#tab-done">เรียบร้อย</button></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="tab-all">
+                        <table id="tableAll" class="table w-100 hover mb-0"></table>
+                    </div>
+                    <div class="tab-pane fade" id="tab-noteval">
+                        <table id="tableNotEval" class="table w-100 hover mb-0"></table>
+                    </div>
+                    <div class="tab-pane fade" id="tab-done">
+                        <table id="tableDone" class="table w-100 hover mb-0"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Repository Section -->
+        <div id="page-library" class="page-section" style="display: none;">
+            <div class="d-flex justify-content-between align-items-center mt-3 mb-4">
+                <h4 class="fw-bold text-dark m-0"><i
+                        class="material-icons-round text-primary align-middle me-2">inventory_2</i>คลังผลงาน
+                    (Repository)</h4>
+                <div class="input-group w-auto" style="min-width: 250px;">
+                    <span class="input-group-text bg-white border-end-0 rounded-pill ps-3"><i
+                            class="material-icons-round fs-6 text-muted">search</i></span>
+                    <input type="text" id="libSearch" class="form-control border-start-0 rounded-pill"
+                        placeholder="ค้นหาชื่อครู...">
+                </div>
+            </div>
+
+            <div class="card bg-white-glass p-4 mb-4">
+                <label class="fw-bold text-muted mb-3 small">กรองตามกลุ่มสาระ:</label>
+                <div id="libRoomContainer" class="d-flex flex-wrap gap-2"></div>
+            </div>
+
+            <div id="lib-loading" class="text-center py-5">
+                <div class="spinner-border text-primary" role="status"></div>
+                <p class="mt-3 text-muted fw-bold">กำลังดึงข้อมูลจากฐานข้อมูล...</p>
+            </div>
+
+            <div id="lib-empty" class="text-center py-5" style="display:none;">
+                <i class="material-icons-round text-muted" style="font-size: 4rem;">folder_off</i>
+                <p class="mt-3 text-muted fw-bold fs-5">ไม่พบข้อมูลผลงาน</p>
+            </div>
+
+            <div id="repo-grid-container" class="repo-grid"></div>
+        </div>
+
+        <!-- AI Report Section -->
+        <div id="page-report" class="page-section" style="display: none;">
+            <div class="row g-4 mt-2">
+                <div class="col-12">
+                    <div class="card bg-white-glass p-5 border-0 shadow-sm" style="border-radius: 20px;">
+                        <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+                            <h4 class="fw-bold text-primary m-0 d-flex align-items-center">
+                                <i class="material-icons-round me-2 text-warning fs-3">auto_awesome</i>
+                                สรุปรายงานเชิงลึกโดย AI
+                            </h4>
+                            <button class="btn btn-lg btn-action-orange rounded-pill px-4 shadow-sm fw-bold"
+                                id="generateAIBtn">
+                                <i class="material-icons-round align-middle fs-5 me-1">refresh</i> วิเคราะห์ข้อมูลล่าสุด
+                            </button>
+                        </div>
+                        <div id="ai-loader" style="display:none;" class="text-center py-5">
+                            <div class="spinner-grow text-primary" role="status" style="width: 3rem; height: 3rem;">
+                            </div>
+                            <p class="mt-4 text-muted fw-bold fs-5">Gemini AI กำลังอ่านข้อมูลและประมวลผลสรุป...</p>
+                        </div>
+                        <div id="ai-result" class="text-dark p-4 rounded-3 border-start border-5 border-primary"
+                            style="line-height: 1.8; background: #f8fafc; white-space: pre-wrap; font-size: 1.05rem;">
+                            <p class="text-muted text-center italic m-0">กรุณากดปุ่มเพื่อเริ่มการวิเคราะห์ด้วย AI</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Chat Widget -->
     <button class="chat-toggle-btn" id="chatBtn" onclick="toggleChat()">
         <i class="fas fa-comment-dots" id="chatIcon"></i>
     </button>
-
     <div class="chat-widget-container" id="chatContainer">
         <div id="chat-loading"
-            style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); color:#6366f1;">
+            style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); color:#1a365d;">
             <i class="fas fa-circle-notch fa-spin fa-2x"></i>
         </div>
         <iframe id="chatIframe" class="chat-iframe" src=""></iframe>
     </div>
 
-    <!-- Custom Modal Elements -->
-    <div class="custom-modal-overlay" id="customModalBox">
-        <div class="custom-modal">
-            <div class="custom-modal-header">
-                <i class="fas fa-exclamation-circle" id="cModalIcon"></i>
-                <div class="custom-modal-title" id="cModalTitle">แจ้งเตือน</div>
-            </div>
-            <div class="custom-modal-body" id="cModalText">
-                รายละเอียด...
-            </div>
-            <div class="custom-modal-footer">
-                <button class="custom-modal-btn primary" onclick="closeCustomModal()">ตกลง</button>
-            </div>
-        </div>
-    </div>
+    <!-- Modals -->
+    <div class="modal fade" id="assessModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                ... (Same assessment modal body as dashboard.html) ...
+                <!-- I need to write out the assessModal completely otherwise it's missing -->
+                <div class="modal-header text-white">
+                    <h4 class="modal-title fw-bold"><i
+                            class="material-icons-round align-middle me-2">assignment_turned_in</i> บันทึกผล Active
+                        Learning</h4>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body bg-light">
+                    <form id="assessForm">
+                        <input type="hidden" name="stdId" id="modalStdId">
+                        <input type="hidden" name="stdName" id="modalStdName">
+                        <input type="hidden" name="stdRoom" id="modalStdRoom">
+                        <input type="hidden" name="stdNo" id="modalStdNo">
 
-    <div class="custom-modal-overlay" id="loadingModal">
-        <div class="custom-modal" style="max-width: 300px; text-align: center; padding: 30px;">
-            <i class="fas fa-circle-notch fa-spin" style="font-size: 3rem; color: var(--primary-color);"></i>
-            <div style="margin-top: 15px; font-weight: 600; color: var(--text-color);">กำลังเปิดลิงก์...</div>
-        </div>
-    </div>
-
-    <script>
-        // ============================================================
-        // 1. CHAT SYSTEM CONFIGURATION
-        // ============================================================
-        const CHAT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxSIdVUxOtEG4XC3uaX7Mrrx-t3nl560eD9jWE5e9PTI8vF906xvaaj2mA3SD1n4FCM/exec";
-
-        const chatContainer = document.getElementById('chatContainer');
-        const chatBtn = document.getElementById('chatBtn');
-        const chatIcon = document.getElementById('chatIcon');
-        const chatIframe = document.getElementById('chatIframe');
-        const chatLoading = document.getElementById('chat-loading');
-        let isChatLoaded = false;
-
-        function toggleChat() {
-            if (chatContainer.style.display === 'flex') {
-                chatContainer.style.display = 'none';
-                chatBtn.classList.remove('active');
-                chatIcon.className = 'fas fa-comment-dots';
-            } else {
-                chatContainer.style.display = 'flex';
-                chatBtn.classList.add('active');
-                chatIcon.className = 'fas fa-times';
-
-                if (!isChatLoaded) {
-                    chatIframe.src = CHAT_WEB_APP_URL;
-                    chatIframe.onload = () => {
-                        chatLoading.style.display = 'none';
-                    };
-                    isChatLoaded = true;
-                }
-            }
-        }
-
-        // ============================================================
-        // 2. CONFIG: ลิงก์ของแต่ละระดับชั้น (LINK DATABASE)
-        // ============================================================
-        const levelLinks = {
-            // ใส่ลิงก์จริงของแต่ละห้อง/ระดับชั้นตรงนี้
-            "1.1.2": {
-                "m1": "/dashboard.html",
-                "m2": "/dashboard.html",
-                "m3": "/dashboard.html",
-                "m4": "/dashboard.html",
-                "m5": "/dashboard.html",
-                "m6": "/dashboard.html"
-            },
-            "1.2.1": {
-                "m1": "/dashboard.html",
-                "m2": "/dashboard.html",
-                "m3": "/dashboard.html",
-                "m4": "/dashboard.html",
-                "m5": "/dashboard.html",
-                "m6": "/dashboard.html"
-            },
-            "1.2.2": {
-                "m1": "/dashboard.html",
-                "m2": "/dashboard.html",
-                "m3": "/dashboard.html",
-                "m4": "/dashboard.html",
-                "m5": "/dashboard.html",
-                "m6": "/dashboard.html"
-            },
-            "1.2.3": {
-                "m1": "/dashboard.html",
-                "m2": "/dashboard.html",
-                "m3": "/dashboard.html",
-                "m4": "/dashboard.html",
-                "m5": "/dashboard.html",
-                "m6": "/dashboard.html"
-            },
-            "1.2.4": {
-                "m1": "/dashboard.html",
-                "m2": "/dashboard.html",
-                "m3": "/dashboard.html",
-                "m4": "/dashboard.html",
-                "m5": "/dashboard.html",
-                "m6": "/dashboard.html"
-            }
-        };
-
-        // ============================================================
-        // 3. CONFIG: ข้อมูลมาตรฐาน (MAIN DATA)
-        // ============================================================
-        const standardsData = [
-            {
-                id: 1, title: "มาตรฐานที่ 1 ด้านคุณภาพผู้เรียน", subTitle: "1.1 ผลสัมฤทธิ์ทางวิชาการ",
-                items: [
-                    { id: "1.1.1", text: "ความสามารถในการอ่าน เขียน สื่อสาร", img: "https://img5.pic.in.th/file/secure-sv1/551ffb37f69ea1028.png", link: "INTERNAL_LEVELS" },
-                    { id: "1.1.2", text: "การคิดวิเคราะห์ คิดอย่างมีวิจารณญาณ", img: "https://img5.pic.in.th/file/secure-sv1/65a5f6b02800138f8.png", link: "INTERNAL_LEVELS" },
-                    { id: "1.1.3", text: "ความสามารถในการสร้างนวัตกรรม", img: "https://img2.pic.in.th/pic/8d66af8ec01c69959.png", link: "INTERNAL_LEVELS" },
-                    { id: "1.1.4", text: "การใช้เทคโนโลยีสารสนเทศ", img: "https://img2.pic.in.th/pic/7bd7c29b829d74aca.png", link: "INTERNAL_LEVELS" },
-                    { id: "1.1.5", text: "ผลสัมฤทธิ์ทางการเรียน", img: "https://img5.pic.in.th/file/secure-sv1/95e4506daf48abb91.png", link: "/dashboard.html" },
-                    { id: "1.1.6", text: "ความพร้อมในการศึกษาต่อ", img: "https://img2.pic.in.th/pic/10250a409f1f581446.png", link: "INTERNAL_LEVELS" }
-                ]
-            },
-            {
-                id: 1.2, title: "มาตรฐานที่ 1 (ต่อ)", subTitle: "1.2 คุณลักษณะที่พึงประสงค์",
-                items: [
-                    { id: "1.2.1", text: "คุณลักษณะและค่านิยมที่ดี", img: "https://img5.pic.in.th/file/secure-sv1/468bf0ff1bb53de56.png", link: "INTERNAL_LEVELS" },
-                    { id: "1.2.2", text: "ความภูมิใจในท้องถิ่น", img: "https://img2.pic.in.th/pic/1ce604008b5954229.png", link: "INTERNAL_LEVELS" },
-                    { id: "1.2.3", text: "การยอมรับความแตกต่าง", img: "https://img2.pic.in.th/pic/349535e14fe1d68ea.png", link: "INTERNAL_LEVELS" },
-                    { id: "1.2.4", text: "สุขภาวะทางร่างกาย และจิตสังคม", img: "https://img5.pic.in.th/file/secure-sv1/22ec12221aa429ec5.png", link: "INTERNAL_LEVELS" }
-                ]
-            },
-            // --- แก้ไข: ใส่ comma คั่น และเปลี่ยนข้อมูลมาตรฐานที่ 2 ไม่ให้ซ้ำกับ 1.2 ---
-            {
-                id: 2, title: "มาตรฐานที่ 2", subTitle: "กระบวนการบริหารและการจัดการ",
-                items: [
-                    { id: "2.1", text: "เป้าหมายวิสัยทัศน์และพันธกิจ", img: "https://cdn-icons-png.flaticon.com/512/3233/3233497.png", link: "/dashboard.html" },
-                    { id: "2.2", text: "ระบบบริหารจัดการคุณภาพ", img: "https://cdn-icons-png.flaticon.com/512/2620/2620677.png", link: "/dashboard.html" },
-                    { id: "2.3", text: "งานวิชาการที่เน้นผู้เรียนรอบด้าน", img: "https://cdn-icons-png.flaticon.com/512/2038/2038022.png", link: "/dashboard.html" },
-                    { id: "2.4", text: "พัฒนาครูและบุคลากร", img: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png", link: "/dashboard.html" },
-                    { id: "2.5", text: "สภาพแวดล้อมและสังคม", img: "https://cdn-icons-png.flaticon.com/512/2829/2829824.png", link: "/dashboard.html" },
-                    { id: "2.6", text: "ระบบเทคโนโลยีสารสนเทศ", img: "https://cdn-icons-png.flaticon.com/512/3067/3067253.png", link: "/dashboard.html" }
-                ]
-            },
-            {
-                id: 3, title: "มาตรฐานที่ 3", subTitle: "การจัดการเรียนการสอนที่เน้นผู้เรียนเป็นสำคัญ",
-                items: [
-                    { id: "3.1", text: "การจัดการเรียนรู้ผ่านกระบวนการคิด", img: "https://cdn-icons-png.flaticon.com/512/2436/2436636.png", link: "/dashboard.html" },
-                    { id: "3.2", text: "การใช้สื่อเทคโนโลยีและแหล่งเรียนรู้", img: "https://cdn-icons-png.flaticon.com/512/2997/2997235.png", link: "/dashboard.html" },
-                    { id: "3.3", text: "การบริหารจัดการชั้นเรียน", img: "https://cdn-icons-png.flaticon.com/512/3048/3048127.png", link: "/dashboard.html" },
-                    { id: "3.4", text: "ตรวจสอบและประเมินผู้เรียนอย่างเป็นระบบ และนำผลมาพัฒนาผู้เรียน", img: "https://cdn-icons-png.flaticon.com/512/3048/3048127.png", link: "/dashboard.html" },
-                    { id: "3.5", text: "มีการแลกเปลี่ยนเรียนรู้และให้ข้อมูลสะท้อนกลับ", img: "https://cdn-icons-png.flaticon.com/512/3048/3048127.png", link: "/dashboard.html" }
-                ]
-            }
-        ];
-
-        const levelsData = [
-            { id: "m1", name: "ม.1", img: "https://cdn-icons-png.flaticon.com/512/3405/3405898.png" },
-            { id: "m2", name: "ม.2", img: "https://cdn-icons-png.flaticon.com/512/3405/3405898.png" },
-            { id: "m3", name: "ม.3", img: "https://cdn-icons-png.flaticon.com/512/3405/3405898.png" },
-            { id: "m4", name: "ม.4", img: "https://cdn-icons-png.flaticon.com/512/3405/3405923.png" },
-            { id: "m5", name: "ม.5", img: "https://cdn-icons-png.flaticon.com/512/3405/3405923.png" },
-            { id: "m6", name: "ม.6", img: "https://cdn-icons-png.flaticon.com/512/3405/3405923.png" }
-        ];
-
-        // ============================================================
-        // 4. LOGIC: การทำงานของระบบ
-        // ============================================================
-        const contentArea = document.getElementById('content-area');
-        const navBar = document.getElementById('nav-bar');
-        const breadcrumb = document.getElementById('breadcrumb');
-        const mainHeader = document.getElementById('main-header');
-
-        let pageStack = [];
-        let currentIndicatorID = null;
-
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => { showMainMenu(); }, 800);
-        });
-
-        function showMainMenu() {
-            pageStack = [];
-            currentIndicatorID = null;
-            updateUI(false);
-
-            let html = '';
-            standardsData.forEach(section => {
-                let cards = '';
-                if (section.items && section.items.length > 0) {
-                    section.items.forEach(item => {
-                        let isInternal = item.link === 'INTERNAL_LEVELS';
-                        let btnClass = isInternal ? 'js-internal-link' : 'js-action-btn';
-                        let btnText = isInternal ? 'เลือกข้อมูลระดับชั้น' : 'เปิดเอกสาร';
-                        let btnIcon = isInternal ? '<i class="fas fa-layer-group"></i>' : '<i class="fas fa-external-link-alt"></i>';
-
-                        cards += `
-                        <div class="box">
-                            <div>
-                                <img src="${item.img}" alt="${item.id}" loading="lazy">
-                                <h3>${item.id}</h3>
-                                <p>${item.text}</p>
+                        <div class="alert bg-white border shadow-sm d-flex align-items-center mb-4"
+                            style="border-radius: 16px; border-left: 6px solid var(--bs-secondary)!important; padding: 1.5rem;">
+                            <div class="bg-light rounded-circle p-3 me-3 text-secondary d-flex align-items-center justify-content-center"
+                                style="width: 60px; height: 60px;">
+                                <i class="material-icons-round" style="font-size: 2rem;">person</i>
                             </div>
-                            <button class="btn ${btnClass}" data-link="${item.link}" data-id="${item.id}">
-                                ${btnText} ${btnIcon}
+                            <div>
+                                <h5 class="fw-bold mb-1 text-dark" id="displayStdName">...</h5>
+                                <span class="text-muted">กลุ่มสาระ <span id="displayStdRoom"
+                                        class="fw-bold text-primary"></span> ตำแหน่ง <span id="displayStdNo"
+                                        class="fw-bold text-primary"></span></span>
+                            </div>
+                        </div>
+
+                        <div class="card border-0 shadow-sm p-4 mb-4" style="border-radius: 20px;"
+                            id="questions-container"></div>
+
+                        <div class="mb-4">
+                            <label class="form-label text-dark fw-bold mb-2">ข้อเสนอแนะเพิ่มเติม</label>
+                            <textarea class="form-control bg-light" name="comment" rows="3"
+                                style="border-radius:12px; border: 1px solid #e2e8f0; padding: 15px;"
+                                placeholder="พิมพ์ความคิดเห็น หรือข้อเสนอแนะในการพัฒนา..."></textarea>
+                        </div>
+
+                        <label class="form-label text-dark fw-bold mb-3"><i
+                                class="material-icons-round align-middle text-danger me-1">cloud_upload</i>
+                            แนบหลักฐานการประเมิน <span class="text-danger">*</span></label>
+                        <div class="upload-container">
+                            <div class="upload-card">
+                                <div id="btn-upload-66">
+                                    <div class="upload-card-header">
+                                        <div>
+                                            <div class="upload-title">ภาคเรียนที่ 1/68</div><span
+                                                class="upload-subtitle">หลักฐาน/Word/PDF</span>
+                                        </div>
+                                        <i class="material-icons-round status-icon"
+                                            id="icon-status-66">chevron_right</i>
+                                    </div>
+                                    <div class="upload-icon-box"><span
+                                            class="material-icons-round upload-icon-main">inventory_2</span></div>
+                                    <input type="file" id="file66" accept="image/*,.pdf" hidden>
+                                    <div class="progress-wrapper" id="progress-wrap-66">
+                                        <div class="file-name-display" id="filename-66">Uploading...</div>
+                                        <div class="custom-progress">
+                                            <div class="custom-progress-bar" id="bar-66"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="upload-card">
+                                <div id="btn-upload-67">
+                                    <div class="upload-card-header">
+                                        <div>
+                                            <div class="upload-title">ภาคเรียนที่ 2/68</div><span
+                                                class="upload-subtitle">หลักฐาน/Word/PDF</span>
+                                        </div>
+                                        <i class="material-icons-round status-icon"
+                                            id="icon-status-67">chevron_right</i>
+                                    </div>
+                                    <div class="upload-icon-box"><span
+                                            class="material-icons-round upload-icon-main">category</span></div>
+                                    <input type="file" id="file67" accept="image/*,.pdf" hidden>
+                                    <div class="progress-wrapper" id="progress-wrap-67">
+                                        <div class="file-name-display" id="filename-67">Uploading...</div>
+                                        <div class="custom-progress">
+                                            <div class="custom-progress-bar" id="bar-67"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-grid mt-4">
+                            <button type="submit"
+                                class="btn btn-save btn-lg rounded-pill shadow-lg fw-bold text-white py-3"
+                                style="font-size: 1.1rem;">
+                                <i class="material-icons-round align-middle me-1">save</i> บันทึกข้อมูลการประเมิน
                             </button>
                         </div>
-                    `;
-                    });
-
-                    html += `
-                    <div class="standard-section">
-                        <div class="section-header">
-                            <h2>${section.title}</h2>
-                            ${section.subTitle ? `<h3>${section.subTitle}</h3>` : ''}
-                        </div>
-                        <div class="box-container">${cards}</div>
-                    </div>
-                `;
-                }
-            });
-            contentArea.innerHTML = html;
-        }
-
-        function showLevelsPage(indicatorID) {
-            pageStack.push('levels');
-            currentIndicatorID = indicatorID;
-            updateUI(true, `มาตรฐาน ${indicatorID} > เลือกระดับชั้น`);
-
-            const linksForThisItem = levelLinks[indicatorID] || {};
-
-            let html = `
-            <div class="standard-section">
-                <div class="section-header"><h2>ข้อมูลระดับชั้น (มาตรฐาน ${indicatorID})</h2></div>
-                <div class="box-container">
-                    ${levelsData.map(level => {
-                let targetLink = linksForThisItem[level.id] || '#';
-                return `
-                        <div class="box">
-                            <div>
-                                <img src="${level.img}" alt="${level.name}">
-                                <h3>${level.name}</h3>
-                                <p>กดเพื่อเปิดข้อมูล ${level.name}</p>
-                            </div>
-                            <button class="btn js-action-btn" data-link="${targetLink}" data-id="${level.name}">
-                                เปิดข้อมูล ${level.name} <i class="fas fa-folder-open"></i>
-                            </button>
-                        </div>
-                        `;
-            }).join('')}
+                    </form>
                 </div>
             </div>
-        `;
-            contentArea.innerHTML = html;
-            window.scrollTo(0, 0);
-        }
+        </div>
+    </div>
 
-        function updateUI(isSubPage, text = "") {
-            navBar.style.display = isSubPage ? 'block' : 'none';
-            mainHeader.style.display = isSubPage ? 'none' : 'block';
-            breadcrumb.innerText = text;
-        }
+    <!-- Alert / Confirm -->
+    <div class="modal fade" id="customAlertModal" tabindex="-1" aria-hidden="true" style="z-index: 1060;">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content" style="border-radius: 12px; border: 1px solid #e2e8f0;">
+                <div class="modal-body text-center p-4">
+                    <i id="alertModalIcon" class="material-icons-round mb-3" style="font-size: 4rem;">info</i>
+                    <h5 id="alertModalTitle" class="fw-bold mb-2">แจ้งเตือน</h5>
+                    <p id="alertModalText" class="text-muted mb-4">รายละเอียด</p>
+                    <button type="button" class="btn btn-formal-primary w-100" data-bs-dismiss="modal">ตกลง</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        document.body.addEventListener('click', function (e) {
-            // ปุ่มย้อนกลับ
-            if (e.target.closest('.js-back-btn')) {
-                pageStack.pop();
-                showMainMenu();
-                return;
-            }
+    <div class="modal fade" id="customConfirmModal" tabindex="-1" aria-hidden="true" style="z-index: 1060;">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content" style="border-radius: 12px; border: 1px solid #e2e8f0;">
+                <div class="modal-body text-center p-4">
+                    <i id="confirmModalIcon" class="material-icons-round text-warning mb-3"
+                        style="font-size: 4rem;">warning</i>
+                    <h5 id="confirmModalTitle" class="fw-bold mb-2">ยืนยัน</h5>
+                    <p id="confirmModalText" class="text-muted mb-4">คุณแน่ใจหรือไม่?</p>
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-formal-secondary w-50" data-bs-dismiss="modal"
+                            id="btnConfirmCancel">ยกเลิก</button>
+                        <button type="button" class="btn btn-formal-danger w-50" id="btnConfirmOk">ยืนยัน</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-            // ปุ่ม Link (ภายนอก)
-            let actionBtn = e.target.closest('.js-action-btn');
-            if (actionBtn) {
-                handleExternalLink(actionBtn.dataset.link, actionBtn.dataset.id);
-                return;
-            }
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay"
+        style="display:none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.8); z-index: 9999; justify-content: center; align-items: center; flex-direction: column;">
+        <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;"></div>
+        <div id="loadingOverlayText" class="mt-3 fw-bold text-dark" style="font-family: 'Sarabun', sans-serif;">
+            กำลังโหลด...</div>
+    </div>
 
-            // ปุ่ม Link (ภายใน - เลือกระดับ)
-            let internalBtn = e.target.closest('.js-internal-link');
-            if (internalBtn) {
-                let id = internalBtn.dataset.id;
-                showLevelsPage(id);
-                return;
-            }
-        });
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <script type="module" src="/src/main.js"></script>
 
-        function showCustomModal(title, text, iconClass = "fa-exclamation-circle", iconColor = "var(--secondary-color)") {
-            const overlay = document.getElementById("customModalBox");
-            document.getElementById("cModalTitle").innerText = title;
-            document.getElementById("cModalText").innerText = text;
-
-            const iconEl = document.getElementById("cModalIcon");
-            iconEl.className = "fas " + iconClass;
-            iconEl.style.color = iconColor;
-
-            overlay.classList.add("show");
-        }
-
-        function closeCustomModal() {
-            document.getElementById("customModalBox").classList.remove("show");
-        }
-
-        function handleExternalLink(url, id) {
-            if (!url || url === '#' || url === '' || url === 'undefined') {
-                showCustomModal(
-                    "ไม่พบลิงก์ข้อมูล",
-                    `ยังไม่ได้ใส่ลิงก์สำหรับ ${id} (หรือข้อมูลนี้ยังไม่พร้อม)`,
-                    "fa-exclamation-triangle",
-                    "#d97706"
-                );
-                return;
-            }
-
-            const loadModal = document.getElementById("loadingModal");
-            loadModal.classList.add("show");
-
-            const isLine = /Line/i.test(navigator.userAgent);
-            setTimeout(() => {
-                loadModal.classList.remove("show");
-                if (isLine) {
-                    let target = url.includes('?') ? url + '&openExternalBrowser=1' : url + '?openExternalBrowser=1';
-                    window.location.href = target;
-                } else {
-                    window.open(url, '_blank');
-                }
-            }, 500);
-        }
-    </script>
 </body>
 
 </html>
