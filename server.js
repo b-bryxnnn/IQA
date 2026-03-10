@@ -293,7 +293,7 @@ app.post('/api/ai/analysis', async (req, res) => {
 
 
 // Catch-all route to serve the frontend index.html for unknown routes (SPA fallback)
-app.get('*', (req, res) => {
+app.get('(.*)', (req, res) => {
     res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
