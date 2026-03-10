@@ -4,5 +4,12 @@ services:
   iqa-app:
     build: .
     container_name: iqa-app
-    network_mode: "host"
+    ports:
+      - "4001:80"
     restart: unless-stopped
+    networks:
+      - coolify
+
+networks:
+  coolify:
+    external: true
