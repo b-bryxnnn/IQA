@@ -3,337 +3,674 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>RS.L Active Learning</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internal Quality Assurance</title>
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap5.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/src/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-material-ui/material-ui.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ================= THEME & COLORS ================= */
+        :root {
+            --primary-color: #fba441;
+            --text-color: #444;
+            --bg-gradient: linear-gradient(135deg, #845ec2, #d65db1, #ff6f91, #ff9671, #ffc75f, #f9f871);
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Bai Jamjuree', sans-serif;
+            text-decoration: none;
+        }
+
+        body {
+            background-image: var(--bg-gradient);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+            color: var(--text-color);
+            padding-bottom: 80px;
+        }
+
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* ================= HEADER ================= */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #fff;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+
+        /* ================= NAV BAR ================= */
+        #nav-bar {
+            display: none;
+            margin-bottom: 30px;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-size: 1rem;
+            color: #845ec2;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .back-btn:hover {
+            transform: translateX(-5px);
+            background: #fff;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        #breadcrumb {
+            margin-left: 15px;
+            color: white;
+            font-weight: 500;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        /* ================= CONTENT LAYOUT ================= */
+        .standard-section {
+            margin-bottom: 50px;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-header {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(5px);
+            padding: 15px 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            display: inline-block;
+            border-left: 6px solid #fff;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-header h2 {
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-header h3 {
+            color: #fff;
+            font-size: 1.1rem;
+            margin-top: 5px;
+            font-weight: 400;
+        }
+
+        .box-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        /* ================= CARD STYLE ================= */
+        .box {
+            background: var(--glass-bg);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            height: 100%;
+        }
+
+        .box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .box img {
+            height: 150px;
+            object-fit: contain;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.1));
+            transition: 0.3s;
+        }
+
+        .box:hover img {
+            transform: scale(1.05);
+        }
+
+        .box h3 {
+            font-size: 1.4rem;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .box p {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            flex-grow: 1;
+        }
+
+        /* ================= BUTTONS ================= */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: var(--primary-color);
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 12px 25px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: #e68a2e;
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(251, 164, 65, 0.4);
+        }
+
+        /* ================= SKELETON LOADING ================= */
+        .skeleton-wrapper {
+            display: grid;
+            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+
+        .skeleton-box {
+            background: rgba(255, 255, 255, 0.8);
+            height: 350px;
+            border-radius: 20px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 0.6;
+            }
+
+            50% {
+                opacity: 0.8;
+            }
+
+            100% {
+                opacity: 0.6;
+            }
+        }
+
+        /* ================= CHAT WIDGET ================= */
+        .chat-widget-container {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 380px;
+            height: 600px;
+            max-height: 80vh;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            z-index: 9999;
+            overflow: hidden;
+            display: none;
+            flex-direction: column;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .chat-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .chat-toggle-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 28px;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.5);
+            cursor: pointer;
+            z-index: 10000;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .chat-toggle-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.7);
+        }
+
+        .chat-toggle-btn.active {
+            background: #ef4444;
+            transform: rotate(90deg);
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            .section-header h2 {
+                font-size: 1.3rem;
+            }
+
+            .chat-widget-container {
+                width: 90%;
+                right: 5%;
+                bottom: 90px;
+                height: 70vh;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-    <nav class="navbar fixed-top" id="mainNavbar">
-        <div class="container">
-            <div class="d-flex align-items-center">
-                <button class="btn btn-menu shadow-sm" type="button" data-bs-toggle="offcanvas"
-                    data-bs-target="#mainMenu">
-                    <i class="material-icons-round">menu</i>
-                </button>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/9/9f/RSL001.png" alt="School Logo"
-                    class="school-logo" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));">
-                <div>
-                    <h5 class="m-0 nav-title">RS.L Active Learning</h5>
-                    <div class="nav-subtitle">ระบบนิเทศและประเมินการสอน</div>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <div class="container">
+        <header id="main-header">
+            <h1>Internal Quality Assurance</h1>
+            <p>ระบบการประกันคุณภาพภายในสถานศึกษา</p>
+        </header>
 
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="mainMenu" aria-labelledby="mainMenuLabel">
-        <div class="offcanvas-header align-items-center">
-            <div class="d-flex align-items-center">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/9/9f/RSL001.png" alt="Logo"
-                    style="height: 40px; margin-right: 10px;">
-                <h5 class="offcanvas-title fw-bold text-dark" id="mainMenuLabel">RS.L System</h5>
-            </div>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        <div id="nav-bar">
+            <button class="back-btn js-back-btn">
+                <i class="fas fa-arrow-left"></i> ย้อนกลับ
+            </button>
+            <span id="breadcrumb"></span>
         </div>
-        <div class="offcanvas-body bg-light">
-            <div class="d-grid gap-1">
-                <a class="menu-link active" data-page="dashboard"><i class="material-icons-round">dashboard</i> หน้าหลัก
-                    (Dashboard)</a>
-                <a class="menu-link" data-page="library" id="navRepoLink"><i
-                        class="material-icons-round">inventory_2</i> คลังผลงาน (Repository)</a>
-                <a class="menu-link" data-page="report"><i class="material-icons-round">assessment</i> รายงานสรุป AI</a>
-                <a class="menu-link" data-page="settings"><i class="material-icons-round">settings</i> ตั้งค่าระบบ</a>
-            </div>
-            <div class="mt-auto pt-4 text-center">
-                <hr class="text-muted">
-                <small class="text-muted">ระบบการบริหารงาน<br>Version 4.0 AL (Local Hosted)</small>
+
+        <div id="content-area">
+            <div class="skeleton-wrapper">
+                <div class="skeleton-box"></div>
+                <div class="skeleton-box"></div>
+                <div class="skeleton-box"></div>
             </div>
         </div>
     </div>
 
-    <div class="container pb-5 fade-in">
-        <div id="page-dashboard" class="page-section">
-            <div class="row g-3 mb-4 mt-2">
-                <div class="col-6 col-md-3">
-                    <div class="card stat-card bg-grad-blue h-100">
-                        <div class="card-body">
-                            <h3 class="fw-bold mb-0" id="kpi-total">0</h3><small>ครูทั้งหมด</small><i
-                                class="material-icons-round stat-icon">groups</i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 col-md-3">
-                    <div class="card stat-card bg-grad-green h-100">
-                        <div class="card-body">
-                            <h3 class="fw-bold mb-0" id="kpi-done">0</h3><small>ประเมินแล้ว</small><i
-                                class="material-icons-round stat-icon">check_circle</i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 col-md-3">
-                    <div class="card stat-card bg-grad-orange h-100">
-                        <div class="card-body">
-                            <h3 class="fw-bold mb-0" id="kpi-pending">0</h3><small>คงเหลือ</small><i
-                                class="material-icons-round stat-icon">pending_actions</i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 col-md-3">
-                    <div class="card stat-card bg-white text-dark h-100 border shadow-sm">
-                        <div class="card-body">
-                            <h3 class="fw-bold mb-0 text-primary" id="kpi-percent">0%</h3><small
-                                class="text-muted">ความสำเร็จ</small><i
-                                class="material-icons-round stat-icon text-muted">pie_chart</i>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <button class="chat-toggle-btn" id="chatBtn" onclick="toggleChat()">
+        <i class="fas fa-comment-dots" id="chatIcon"></i>
+    </button>
 
-            <div class="row g-4 mb-4">
-                <div class="col-lg-8">
-                    <div class="card bg-white-glass h-100 p-4">
-                        <div class="chart-title">ข้อมูลแบ่งตามกลุ่มสาระการเรียนรู้</div>
-                        <div style="height:280px"><canvas id="myBarChart"></canvas></div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="card bg-white-glass h-100 p-4">
-                        <div class="chart-title">ภาพรวมการประเมิน</div>
-                        <div style="height:280px"><canvas id="myPieChart"></canvas></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card bg-white-glass p-4 mb-4">
-                <div class="mb-4">
-                    <label class="fw-bold text-primary mb-3"><i
-                            class="material-icons-round align-middle me-1">grid_view</i>
-                        เลือกกลุ่มสาระการเรียนรู้</label>
-                    <div id="roomButtonContainer" class="d-flex flex-wrap gap-2">
-                        <button class="btn room-btn active" data-room="">ทั้งหมด</button>
-                    </div>
-                </div>
-
-                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                    <li class="nav-item"><button class="nav-link active" data-bs-toggle="pill"
-                            data-bs-target="#tab-all">ทั้งหมด</button></li>
-                    <li class="nav-item"><button class="nav-link" data-bs-toggle="pill"
-                            data-bs-target="#tab-noteval">ยังไม่ประเมิน</button></li>
-                    <li class="nav-item"><button class="nav-link" data-bs-toggle="pill"
-                            data-bs-target="#tab-done">เรียบร้อย</button></li>
-                </ul>
-
-                <div class="tab-content">
-                    <div class="tab-pane fade show active" id="tab-all">
-                        <table id="tableAll" class="table w-100 hover mb-0"></table>
-                    </div>
-                    <div class="tab-pane fade" id="tab-noteval">
-                        <table id="tableNotEval" class="table w-100 hover mb-0"></table>
-                    </div>
-                    <div class="tab-pane fade" id="tab-done">
-                        <table id="tableDone" class="table w-100 hover mb-0"></table>
-                    </div>
-                </div>
-            </div>
+    <div class="chat-widget-container" id="chatContainer">
+        <div id="chat-loading"
+            style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); color:#6366f1;">
+            <i class="fas fa-circle-notch fa-spin fa-2x"></i>
         </div>
-
-        <!-- Repository Section -->
-        <div id="page-library" class="page-section" style="display: none;">
-            <div class="d-flex justify-content-between align-items-center mt-3 mb-4">
-                <h4 class="fw-bold text-dark m-0"><i
-                        class="material-icons-round text-primary align-middle me-2">inventory_2</i>คลังผลงาน
-                    (Repository)</h4>
-                <div class="input-group w-auto" style="min-width: 250px;">
-                    <span class="input-group-text bg-white border-end-0 rounded-pill ps-3"><i
-                            class="material-icons-round fs-6 text-muted">search</i></span>
-                    <input type="text" id="libSearch" class="form-control border-start-0 rounded-pill"
-                        placeholder="ค้นหาชื่อครู...">
-                </div>
-            </div>
-
-            <div class="card bg-white-glass p-4 mb-4">
-                <label class="fw-bold text-muted mb-3 small">กรองตามกลุ่มสาระ:</label>
-                <div id="libRoomContainer" class="d-flex flex-wrap gap-2"></div>
-            </div>
-
-            <div id="lib-loading" class="text-center py-5">
-                <div class="spinner-border text-primary" role="status"></div>
-                <p class="mt-3 text-muted fw-bold">กำลังดึงข้อมูลจากฐานข้อมูล...</p>
-            </div>
-
-            <div id="lib-empty" class="text-center py-5" style="display:none;">
-                <i class="material-icons-round text-muted" style="font-size: 4rem;">folder_off</i>
-                <p class="mt-3 text-muted fw-bold fs-5">ไม่พบข้อมูลผลงาน</p>
-            </div>
-
-            <div id="repo-grid-container" class="repo-grid"></div>
-        </div>
-
-        <!-- AI Report Section -->
-        <div id="page-report" class="page-section" style="display: none;">
-            <div class="row g-4 mt-2">
-                <div class="col-12">
-                    <div class="card bg-white-glass p-5 border-0 shadow-sm" style="border-radius: 20px;">
-                        <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
-                            <h4 class="fw-bold text-primary m-0 d-flex align-items-center">
-                                <i class="material-icons-round me-2 text-warning fs-3">auto_awesome</i>
-                                สรุปรายงานเชิงลึกโดย AI
-                            </h4>
-                            <button class="btn btn-lg btn-action-orange rounded-pill px-4 shadow-sm fw-bold"
-                                id="generateAIBtn">
-                                <i class="material-icons-round align-middle fs-5 me-1">refresh</i> วิเคราะห์ข้อมูลล่าสุด
-                            </button>
-                        </div>
-                        <div id="ai-loader" style="display:none;" class="text-center py-5">
-                            <div class="spinner-grow text-primary" role="status" style="width: 3rem; height: 3rem;">
-                            </div>
-                            <p class="mt-4 text-muted fw-bold fs-5">Gemini AI กำลังอ่านข้อมูลและประมวลผลสรุป...</p>
-                        </div>
-                        <div id="ai-result" class="text-dark p-4 rounded-3 border-start border-5 border-primary"
-                            style="line-height: 1.8; background: #f8fafc; white-space: pre-wrap; font-size: 1.05rem;">
-                            <p class="text-muted text-center italic m-0">กรุณากดปุ่มเพื่อเริ่มการวิเคราะห์ด้วย AI</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="page-settings" class="page-section" style="display: none;">
-            <div class="card bg-white-glass p-4 mt-4">
-                <h5 class="fw-bold border-bottom pb-3 mb-4"><i
-                        class="material-icons-round align-middle me-2">settings</i> ตั้งค่าระบบ</h5>
-                <div class="form-check form-switch mb-3">
-                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
-                    <label class="form-check-label ms-2 fw-bold" for="flexSwitchCheckChecked">เปิดรับการประเมิน</label>
-                </div>
-            </div>
-        </div>
+        <iframe id="chatIframe" class="chat-iframe" src=""></iframe>
     </div>
 
-    <div class="modal fade" id="assessModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-header text-white">
-                    <h4 class="modal-title fw-bold"><i
-                            class="material-icons-round align-middle me-2">assignment_turned_in</i> บันทึกผล Active
-                        Learning</h4>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body bg-light">
-                    <form id="assessForm">
-                        <input type="hidden" name="stdId" id="modalStdId">
-                        <input type="hidden" name="stdName" id="modalStdName">
-                        <input type="hidden" name="stdRoom" id="modalStdRoom">
-                        <input type="hidden" name="stdNo" id="modalStdNo">
-
-                        <div class="alert bg-white border shadow-sm d-flex align-items-center mb-4"
-                            style="border-radius: 16px; border-left: 6px solid var(--color-secondary)!important; padding: 1.5rem;">
-                            <div class="bg-light rounded-circle p-3 me-3 text-secondary d-flex align-items-center justify-content-center"
-                                style="width: 60px; height: 60px;">
-                                <i class="material-icons-round" style="font-size: 2rem;">person</i>
-                            </div>
-                            <div>
-                                <h5 class="fw-bold mb-1 text-dark" id="displayStdName">...</h5>
-                                <span class="text-muted">กลุ่มสาระ <span id="displayStdRoom"
-                                        class="fw-bold text-primary"></span> ตำแหน่ง <span id="displayStdNo"
-                                        class="fw-bold text-primary"></span></span>
-                            </div>
-                        </div>
-
-                        <div class="d-flex justify-content-between mb-3 px-1">
-                            <span class="badge bg-secondary rounded-pill px-3 py-2"><i
-                                    class="material-icons-round align-middle me-1" style="font-size: 14px;">info</i> 5 =
-                                มากที่สุด / 1 = น้อยที่สุด</span>
-                        </div>
-
-                        <div class="card border-0 shadow-sm p-4 mb-4" style="border-radius: 20px;"
-                            id="questions-container"></div>
-
-                        <div class="mb-4">
-                            <label class="form-label text-dark fw-bold mb-2">ข้อเสนอแนะเพิ่มเติม</label>
-                            <textarea class="form-control bg-light" name="comment" rows="3"
-                                style="border-radius:12px; border: 1px solid #e2e8f0; padding: 15px;"
-                                placeholder="พิมพ์ความคิดเห็น หรือข้อเสนอแนะในการพัฒนา..."></textarea>
-                        </div>
-
-                        <label class="form-label text-dark fw-bold mb-3"><i
-                                class="material-icons-round align-middle text-danger me-1">cloud_upload</i>
-                            แนบหลักฐานการประเมิน <span class="text-danger">*</span></label>
-                        <div class="upload-container">
-                            <div class="upload-card">
-                                <div id="btn-upload-66">
-                                    <div class="upload-card-header">
-                                        <div>
-                                            <div class="upload-title">ภาคเรียนที่ 1/68</div><span
-                                                class="upload-subtitle">หลักฐาน/Word/PDF</span>
-                                        </div><i class="material-icons-round status-icon"
-                                            id="icon-status-66">chevron_right</i>
-                                    </div>
-                                    <div class="upload-icon-box"><span
-                                            class="material-icons-round upload-icon-main">inventory_2</span></div>
-                                    <input type="file" id="file66" accept="image/*,.pdf" hidden>
-                                    <div class="progress-wrapper" id="progress-wrap-66">
-                                        <div class="file-name-display" id="filename-66">Uploading...</div>
-                                        <div class="custom-progress">
-                                            <div class="custom-progress-bar" id="bar-66"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="upload-card">
-                                <div id="btn-upload-67">
-                                    <div class="upload-card-header">
-                                        <div>
-                                            <div class="upload-title">ภาคเรียนที่ 2/68</div><span
-                                                class="upload-subtitle">หลักฐาน/Word/PDF</span>
-                                        </div><i class="material-icons-round status-icon"
-                                            id="icon-status-67">chevron_right</i>
-                                    </div>
-                                    <div class="upload-icon-box"><span
-                                            class="material-icons-round upload-icon-main">category</span></div>
-                                    <input type="file" id="file67" accept="image/*,.pdf" hidden>
-                                    <div class="progress-wrapper" id="progress-wrap-67">
-                                        <div class="file-name-display" id="filename-67">Uploading...</div>
-                                        <div class="custom-progress">
-                                            <div class="custom-progress-bar" id="bar-67"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-grid mt-4">
-                            <button type="submit"
-                                class="btn btn-save btn-lg rounded-pill shadow-lg fw-bold text-white py-3"
-                                style="font-size: 1.1rem;">
-                                <i class="material-icons-round align-middle me-1">save</i> บันทึกข้อมูลการประเมิน
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script type="module" src="/src/main.js"></script>
 
+    <script>
+        // ============================================================
+        // 1. CHAT SYSTEM CONFIGURATION
+        // ============================================================
+        const CHAT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxSIdVUxOtEG4XC3uaX7Mrrx-t3nl560eD9jWE5e9PTI8vF906xvaaj2mA3SD1n4FCM/exec";
+
+        const chatContainer = document.getElementById('chatContainer');
+        const chatBtn = document.getElementById('chatBtn');
+        const chatIcon = document.getElementById('chatIcon');
+        const chatIframe = document.getElementById('chatIframe');
+        const chatLoading = document.getElementById('chat-loading');
+        let isChatLoaded = false;
+
+        function toggleChat() {
+            if (chatContainer.style.display === 'flex') {
+                chatContainer.style.display = 'none';
+                chatBtn.classList.remove('active');
+                chatIcon.className = 'fas fa-comment-dots';
+            } else {
+                chatContainer.style.display = 'flex';
+                chatBtn.classList.add('active');
+                chatIcon.className = 'fas fa-times';
+
+                if (!isChatLoaded) {
+                    chatIframe.src = CHAT_WEB_APP_URL;
+                    chatIframe.onload = () => {
+                        chatLoading.style.display = 'none';
+                    };
+                    isChatLoaded = true;
+                }
+            }
+        }
+
+        // ============================================================
+        // 2. CONFIG: ลิงก์ของแต่ละระดับชั้น (LINK DATABASE)
+        // ============================================================
+        const levelLinks = {
+            // ใส่ลิงก์จริงของแต่ละห้อง/ระดับชั้นตรงนี้
+            "1.1.2": {
+                "m1": "/dashboard.html",
+                "m2": "/dashboard.html",
+                "m3": "/dashboard.html",
+                "m4": "/dashboard.html",
+                "m5": "/dashboard.html",
+                "m6": "/dashboard.html"
+            },
+            "1.2.1": {
+                "m1": "/dashboard.html",
+                "m2": "/dashboard.html",
+                "m3": "/dashboard.html",
+                "m4": "/dashboard.html",
+                "m5": "/dashboard.html",
+                "m6": "/dashboard.html"
+            },
+            "1.2.2": {
+                "m1": "/dashboard.html",
+                "m2": "/dashboard.html",
+                "m3": "/dashboard.html",
+                "m4": "/dashboard.html",
+                "m5": "/dashboard.html",
+                "m6": "/dashboard.html"
+            },
+            "1.2.3": {
+                "m1": "/dashboard.html",
+                "m2": "/dashboard.html",
+                "m3": "/dashboard.html",
+                "m4": "/dashboard.html",
+                "m5": "/dashboard.html",
+                "m6": "/dashboard.html"
+            },
+            "1.2.4": {
+                "m1": "/dashboard.html",
+                "m2": "/dashboard.html",
+                "m3": "/dashboard.html",
+                "m4": "/dashboard.html",
+                "m5": "/dashboard.html",
+                "m6": "/dashboard.html"
+            }
+        };
+
+        // ============================================================
+        // 3. CONFIG: ข้อมูลมาตรฐาน (MAIN DATA)
+        // ============================================================
+        const standardsData = [
+            {
+                id: 1, title: "มาตรฐานที่ 1 ด้านคุณภาพผู้เรียน", subTitle: "1.1 ผลสัมฤทธิ์ทางวิชาการ",
+                items: [
+                    { id: "1.1.1", text: "ความสามารถในการอ่าน เขียน สื่อสาร", img: "https://img5.pic.in.th/file/secure-sv1/551ffb37f69ea1028.png", link: "INTERNAL_LEVELS" },
+                    { id: "1.1.2", text: "การคิดวิเคราะห์ คิดอย่างมีวิจารณญาณ", img: "https://img5.pic.in.th/file/secure-sv1/65a5f6b02800138f8.png", link: "INTERNAL_LEVELS" },
+                    { id: "1.1.3", text: "ความสามารถในการสร้างนวัตกรรม", img: "https://img2.pic.in.th/pic/8d66af8ec01c69959.png", link: "INTERNAL_LEVELS" },
+                    { id: "1.1.4", text: "การใช้เทคโนโลยีสารสนเทศ", img: "https://img2.pic.in.th/pic/7bd7c29b829d74aca.png", link: "INTERNAL_LEVELS" },
+                    { id: "1.1.5", text: "ผลสัมฤทธิ์ทางการเรียน", img: "https://img5.pic.in.th/file/secure-sv1/95e4506daf48abb91.png", link: "/dashboard.html" },
+                    { id: "1.1.6", text: "ความพร้อมในการศึกษาต่อ", img: "https://img2.pic.in.th/pic/10250a409f1f581446.png", link: "INTERNAL_LEVELS" }
+                ]
+            },
+            {
+                id: 1.2, title: "มาตรฐานที่ 1 (ต่อ)", subTitle: "1.2 คุณลักษณะที่พึงประสงค์",
+                items: [
+                    { id: "1.2.1", text: "คุณลักษณะและค่านิยมที่ดี", img: "https://img5.pic.in.th/file/secure-sv1/468bf0ff1bb53de56.png", link: "INTERNAL_LEVELS" },
+                    { id: "1.2.2", text: "ความภูมิใจในท้องถิ่น", img: "https://img2.pic.in.th/pic/1ce604008b5954229.png", link: "INTERNAL_LEVELS" },
+                    { id: "1.2.3", text: "การยอมรับความแตกต่าง", img: "https://img2.pic.in.th/pic/349535e14fe1d68ea.png", link: "INTERNAL_LEVELS" },
+                    { id: "1.2.4", text: "สุขภาวะทางร่างกาย และจิตสังคม", img: "https://img5.pic.in.th/file/secure-sv1/22ec12221aa429ec5.png", link: "INTERNAL_LEVELS" }
+                ]
+            },
+            // --- แก้ไข: ใส่ comma คั่น และเปลี่ยนข้อมูลมาตรฐานที่ 2 ไม่ให้ซ้ำกับ 1.2 ---
+            {
+                id: 2, title: "มาตรฐานที่ 2", subTitle: "กระบวนการบริหารและการจัดการ",
+                items: [
+                    { id: "2.1", text: "เป้าหมายวิสัยทัศน์และพันธกิจ", img: "https://cdn-icons-png.flaticon.com/512/3233/3233497.png", link: "/dashboard.html" },
+                    { id: "2.2", text: "ระบบบริหารจัดการคุณภาพ", img: "https://cdn-icons-png.flaticon.com/512/2620/2620677.png", link: "/dashboard.html" },
+                    { id: "2.3", text: "งานวิชาการที่เน้นผู้เรียนรอบด้าน", img: "https://cdn-icons-png.flaticon.com/512/2038/2038022.png", link: "/dashboard.html" },
+                    { id: "2.4", text: "พัฒนาครูและบุคลากร", img: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png", link: "/dashboard.html" },
+                    { id: "2.5", text: "สภาพแวดล้อมและสังคม", img: "https://cdn-icons-png.flaticon.com/512/2829/2829824.png", link: "/dashboard.html" },
+                    { id: "2.6", text: "ระบบเทคโนโลยีสารสนเทศ", img: "https://cdn-icons-png.flaticon.com/512/3067/3067253.png", link: "/dashboard.html" }
+                ]
+            },
+            {
+                id: 3, title: "มาตรฐานที่ 3", subTitle: "การจัดการเรียนการสอนที่เน้นผู้เรียนเป็นสำคัญ",
+                items: [
+                    { id: "3.1", text: "การจัดการเรียนรู้ผ่านกระบวนการคิด", img: "https://cdn-icons-png.flaticon.com/512/2436/2436636.png", link: "/dashboard.html" },
+                    { id: "3.2", text: "การใช้สื่อเทคโนโลยีและแหล่งเรียนรู้", img: "https://cdn-icons-png.flaticon.com/512/2997/2997235.png", link: "/dashboard.html" },
+                    { id: "3.3", text: "การบริหารจัดการชั้นเรียน", img: "https://cdn-icons-png.flaticon.com/512/3048/3048127.png", link: "/dashboard.html" },
+                    { id: "3.4", text: "ตรวจสอบและประเมินผู้เรียนอย่างเป็นระบบ และนำผลมาพัฒนาผู้เรียน", img: "https://cdn-icons-png.flaticon.com/512/3048/3048127.png", link: "/dashboard.html" },
+                    { id: "3.5", text: "มีการแลกเปลี่ยนเรียนรู้และให้ข้อมูลสะท้อนกลับ", img: "https://cdn-icons-png.flaticon.com/512/3048/3048127.png", link: "/dashboard.html" }
+                ]
+            }
+        ];
+
+        const levelsData = [
+            { id: "m1", name: "ม.1", img: "https://cdn-icons-png.flaticon.com/512/3405/3405898.png" },
+            { id: "m2", name: "ม.2", img: "https://cdn-icons-png.flaticon.com/512/3405/3405898.png" },
+            { id: "m3", name: "ม.3", img: "https://cdn-icons-png.flaticon.com/512/3405/3405898.png" },
+            { id: "m4", name: "ม.4", img: "https://cdn-icons-png.flaticon.com/512/3405/3405923.png" },
+            { id: "m5", name: "ม.5", img: "https://cdn-icons-png.flaticon.com/512/3405/3405923.png" },
+            { id: "m6", name: "ม.6", img: "https://cdn-icons-png.flaticon.com/512/3405/3405923.png" }
+        ];
+
+        // ============================================================
+        // 4. LOGIC: การทำงานของระบบ
+        // ============================================================
+        const contentArea = document.getElementById('content-area');
+        const navBar = document.getElementById('nav-bar');
+        const breadcrumb = document.getElementById('breadcrumb');
+        const mainHeader = document.getElementById('main-header');
+
+        let pageStack = [];
+        let currentIndicatorID = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => { showMainMenu(); }, 800);
+        });
+
+        function showMainMenu() {
+            pageStack = [];
+            currentIndicatorID = null;
+            updateUI(false);
+
+            let html = '';
+            standardsData.forEach(section => {
+                let cards = '';
+                if (section.items && section.items.length > 0) {
+                    section.items.forEach(item => {
+                        let isInternal = item.link === 'INTERNAL_LEVELS';
+                        let btnClass = isInternal ? 'js-internal-link' : 'js-action-btn';
+                        let btnText = isInternal ? 'เลือกข้อมูลระดับชั้น' : 'เปิดเอกสาร';
+                        let btnIcon = isInternal ? '<i class="fas fa-layer-group"></i>' : '<i class="fas fa-external-link-alt"></i>';
+
+                        cards += `
+                        <div class="box">
+                            <div>
+                                <img src="${item.img}" alt="${item.id}" loading="lazy">
+                                <h3>${item.id}</h3>
+                                <p>${item.text}</p>
+                            </div>
+                            <button class="btn ${btnClass}" data-link="${item.link}" data-id="${item.id}">
+                                ${btnText} ${btnIcon}
+                            </button>
+                        </div>
+                    `;
+                    });
+
+                    html += `
+                    <div class="standard-section">
+                        <div class="section-header">
+                            <h2>${section.title}</h2>
+                            ${section.subTitle ? `<h3>${section.subTitle}</h3>` : ''}
+                        </div>
+                        <div class="box-container">${cards}</div>
+                    </div>
+                `;
+                }
+            });
+            contentArea.innerHTML = html;
+        }
+
+        function showLevelsPage(indicatorID) {
+            pageStack.push('levels');
+            currentIndicatorID = indicatorID;
+            updateUI(true, `มาตรฐาน ${indicatorID} > เลือกระดับชั้น`);
+
+            const linksForThisItem = levelLinks[indicatorID] || {};
+
+            let html = `
+            <div class="standard-section">
+                <div class="section-header"><h2>ข้อมูลระดับชั้น (มาตรฐาน ${indicatorID})</h2></div>
+                <div class="box-container">
+                    ${levelsData.map(level => {
+                let targetLink = linksForThisItem[level.id] || '#';
+                return `
+                        <div class="box">
+                            <div>
+                                <img src="${level.img}" alt="${level.name}">
+                                <h3>${level.name}</h3>
+                                <p>กดเพื่อเปิดข้อมูล ${level.name}</p>
+                            </div>
+                            <button class="btn js-action-btn" data-link="${targetLink}" data-id="${level.name}">
+                                เปิดข้อมูล ${level.name} <i class="fas fa-folder-open"></i>
+                            </button>
+                        </div>
+                        `;
+            }).join('')}
+                </div>
+            </div>
+        `;
+            contentArea.innerHTML = html;
+            window.scrollTo(0, 0);
+        }
+
+        function updateUI(isSubPage, text = "") {
+            navBar.style.display = isSubPage ? 'block' : 'none';
+            mainHeader.style.display = isSubPage ? 'none' : 'block';
+            breadcrumb.innerText = text;
+        }
+
+        document.body.addEventListener('click', function (e) {
+            // ปุ่มย้อนกลับ
+            if (e.target.closest('.js-back-btn')) {
+                pageStack.pop();
+                showMainMenu();
+                return;
+            }
+
+            // ปุ่ม Link (ภายนอก)
+            let actionBtn = e.target.closest('.js-action-btn');
+            if (actionBtn) {
+                handleExternalLink(actionBtn.dataset.link, actionBtn.dataset.id);
+                return;
+            }
+
+            // ปุ่ม Link (ภายใน - เลือกระดับ)
+            let internalBtn = e.target.closest('.js-internal-link');
+            if (internalBtn) {
+                let id = internalBtn.dataset.id;
+                showLevelsPage(id);
+                return;
+            }
+        });
+
+        function handleExternalLink(url, id) {
+            if (!url || url === '#' || url === '' || url === 'undefined') {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'ไม่พบลิงก์ข้อมูล',
+                    text: `ยังไม่ได้ใส่ลิงก์สำหรับ ${id} (หรือข้อมูลนี้ยังไม่พร้อม)`,
+                    confirmButtonColor: '#fba441'
+                });
+                return;
+            }
+
+            Swal.fire({ title: 'กำลังเปิดลิงก์...', timer: 1000, didOpen: () => Swal.showLoading() });
+
+            const isLine = /Line/i.test(navigator.userAgent);
+            setTimeout(() => {
+                if (isLine) {
+                    let target = url.includes('?') ? url + '&openExternalBrowser=1' : url + '?openExternalBrowser=1';
+                    window.location.href = target;
+                } else {
+                    window.open(url, '_blank');
+                }
+            }, 500);
+        }
+    </script>
 </body>
 
 </html>
