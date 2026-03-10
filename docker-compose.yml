@@ -7,9 +7,3 @@ services:
     ports:
       - "4001:80"
     restart: unless-stopped
-    networks:
-      - coolify
-
-networks:
-  coolify:
-    external: true
